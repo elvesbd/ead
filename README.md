@@ -1,10 +1,10 @@
-# DomainModeling
+# EAD
 
-![GitHub repo size](https://img.shields.io/github/repo-size/elvesbd/domain-modeling?style=for-the-badge)
-![GitHub language count](https://img.shields.io/github/languages/count/elvesbd/domain-modeling?style=for-the-badge)
-![GitHub forks](https://img.shields.io/github/forks/elvesbd/domain-modeling?style=for-the-badge)
-![GitHub issues](https://img.shields.io/github/issues-raw/elvesbd/domain-modeling?style=for-the-badge)
-![GitHub pull requests](https://img.shields.io/github/issues-pr/elvesbd/domain-modeling?style=for-the-badge)
+![GitHub repo size](https://img.shields.io/github/repo-size/elvesbd/ead?style=for-the-badge)
+![GitHub language count](https://img.shields.io/github/languages/count/elvesbd/ead?style=for-the-badge)
+![GitHub forks](https://img.shields.io/github/forks/elvesbd/ead?style=for-the-badge)
+![GitHub issues](https://img.shields.io/github/issues-raw/elvesbd/ead?style=for-the-badge)
+![GitHub pull requests](https://img.shields.io/github/issues-pr/elvesbd/ead?style=for-the-badge)
 
 ![Coverage](./images/coverage.png)
 
@@ -33,7 +33,7 @@ A integridade e confiabilidade do sistema são garantidas por meio de testes uni
 Clonando o projeto:
 
 ```bash
-git clone https://github.com/elvesbd/domain-modeling.git
+git clone https://github.com/elvesbd/ead.git
 ```
 
 2. **Instalar Dependências:**
@@ -71,4 +71,4 @@ npm test
 
 Esse projeto está sob licença. Veja o arquivo [LICENÇA](LICENSE.md) para mais detalhes.
 
-[⬆ Voltar ao topo](#DomainModeling)<br>
+[⬆ Voltar ao topo](#EAD)<br>
