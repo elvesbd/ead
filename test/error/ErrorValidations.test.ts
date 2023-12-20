@@ -3,30 +3,30 @@ import ErrorValidation from "@/error/ErrorValidation";
 
 describe("ErrorValidation", () => {
   it("ensures that create an error type invalid email", () => {
-    const errorCode = ErrorType.INVALID_EMAIL;
+    const errorMessage = ErrorType.INVALID_EMAIL;
     const errorValue = "john@";
 
     const error = new ErrorValidation({
-      code: errorCode,
+      errorMessage,
       value: errorValue,
     });
 
     expect(error.value).toBe(errorValue);
-    expect(error.code).toBe(ErrorType.INVALID_EMAIL);
+    expect(error.errorMessage).toBe(ErrorType.INVALID_EMAIL);
   });
 
   it("ensures that create an error type min length", () => {
-    const errorCode = ErrorType.MIN_LENGTH;
+    const errorMessage = ErrorType.MIN_LENGTH;
     const errorValue = "John";
 
     const error = new ErrorValidation({
-      code: errorCode,
+      errorMessage,
       value: errorValue,
       extras: { minLength: 6 },
     });
 
     expect(error.value).toBe(errorValue);
-    expect(error.code).toBe(ErrorType.MIN_LENGTH);
+    expect(error.errorMessage).toBe(ErrorType.MIN_LENGTH);
     expect(error.extras.minLength).toBe(6);
   });
 
@@ -34,30 +34,30 @@ describe("ErrorValidation", () => {
     const errorOne = ErrorValidation.newError();
     const errorTwo = new ErrorValidation();
 
-    expect(errorOne.code).toBe(ErrorType.UNKNOWN);
-    expect(errorTwo.code).toBe(ErrorType.UNKNOWN);
+    expect(errorOne.errorMessage).toBe(ErrorType.UNKNOWN);
+    expect(errorTwo.errorMessage).toBe(ErrorType.UNKNOWN);
   });
 
   it("ensures that create an error type unknown", () => {
-    const errorCode = ErrorType.UNKNOWN;
+    const errorMessage = ErrorType.UNKNOWN;
     const errorValue = "John";
 
     const error = new ErrorValidation({
-      code: errorCode,
+      errorMessage,
       value: errorValue,
     });
 
     expect(error.toString()).toBe(
-      "Error: UNKNOWN (code: UNKNOWN, value: John, extras: {})"
+      "Error: UNKNOWN (errorMessage: UNKNOWN, value: John, extras: {})"
     );
   });
 
   it("ensures that throws an error with the specified message", () => {
-    const errorCode = "ERROR";
+    const errorMessage = "ERROR";
     const errorValue = "value";
 
-    expect(() => ErrorValidation.throw(errorCode, errorValue)).toThrow(
-      errorCode
+    expect(() => ErrorValidation.throw(errorMessage, errorValue)).toThrow(
+      errorMessage
     );
   });
 });

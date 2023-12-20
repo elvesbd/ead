@@ -1,5 +1,5 @@
 export interface ErrorValidationProps {
-  code?: string;
+  errorMessage?: string;
   value?: any;
   extras?: object;
 }
