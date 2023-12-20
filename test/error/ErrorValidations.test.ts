@@ -38,7 +38,7 @@ describe("ErrorValidation", () => {
     expect(errorTwo.errorMessage).toBe(ErrorType.UNKNOWN);
   });
 
-  it("ensures that create an error type unknown", () => {
+  it("ensures that calls toString method", () => {
     const errorMessage = ErrorType.UNKNOWN;
     const errorValue = "John";
 
