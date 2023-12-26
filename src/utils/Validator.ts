@@ -10,57 +10,143 @@ export default class Validator {
     return filteredErrors.length > 0 ? filteredErrors : null;
   }
 
-  static NotNull(
-    value: any,
-    errorMessage: string = "O valor não pode ser nulo ou indefinido!"
+  static isRequired<T>(
+    value: T,
+    errorMessage?: string
   ): ErrorValidation | null {
-    const isValid =
-      value !== null &&
-      value !== undefined &&
-      (typeof value !== "string" || value.trim() !== "");
+    const isValidValue = value !== null && value !== undefined;
 
-    return isValid ? null : ErrorValidation.newError(errorMessage, value);
-  }
-
-  static isNotEmpty(
-    value: string | null | undefined,
-    errorMessage: string = "O valor não pode ser vazio!"
-  ): ErrorValidation | null {
-    if (Validator.NotNull(value, errorMessage))
-      return ErrorValidation.newError(errorMessage, value);
-
-    return value?.trim() !== ""
+    return isValidValue
       ? null
-      : ErrorValidation.newError(errorMessage, value);
+      : ErrorValidation.newError(
+          errorMessage ?? "O valor é obrigatório!",
+          value
+        );
   }
 
-  static isLessThan(
-    value: string | string[],
-    maxLength: number,
-    errorMessage: string = `O valor não pode ser menor que ${maxLength}`
-  ): ErrorValidation | null {
-    return value.length < maxLength
+  static isDefined<T>(value: T, errorMessage?: string): ErrorValidation | null {
+    const isValidValue = value !== undefined && value !== null;
+
+    return isValidValue
       ? null
-      : ErrorValidation.newError(errorMessage, value, { max: maxLength });
+      : ErrorValidation.newError(
+          errorMessage ?? "O valor não pode ser indefinido!",
+          value
+        );
   }
 
-  static isMoreThan(
+  static isNotEmpty<T>(value: T, errorMessage?: string) {
+    let isValidValue = true;
+
+    switch (typeof value) {
+      case "string":
+        isValidValue = value.trim() !== "";
+        break;
+
+      case "number":
+        isValidValue = !isNaN(value);
+        break;
+
+      case "boolean":
+        isValidValue = value !== undefined && value !== null;
+        break;
+
+      case "object":
+        if (value === null) {
+          isValidValue = false;
+        } else if (Array.isArray(value)) {
+          isValidValue = value.length !== 0;
+        }
+        break;
+
+      case "undefined":
+        isValidValue = false;
+        break;
+
+      default:
+        isValidValue = false;
+        break;
+    }
+
+    return isValidValue
+      ? null
+      : ErrorValidation.newError(
+          errorMessage ?? "O valor não pode ser vazio!",
+          value
+        );
+  }
+
+  static isShorterThan(
     value: string | string[],
     minLength: number,
-    errorMessage: string = `O valor não pode ser maior que ${minLength}`
+    errorMessage?: string
   ): ErrorValidation | null {
-    return value.length > minLength
-      ? null
-      : ErrorValidation.newError(errorMessage, value, { min: minLength });
+    const isInvalidValue =
+      (typeof value === "string" || Array.isArray(value)) &&
+      value.length < minLength;
+
+    return isInvalidValue
+      ? ErrorValidation.newError(
+          errorMessage ??
+            `O valor não pode ter menos que ${minLength} caracteres!`,
+          value,
+          { minLength }
+        )
+      : null;
   }
 
-  static isRegex(
+  static isLongerThan(
+    value: string | string[],
+    maxLength: number,
+    errorMessage?: string
+  ): ErrorValidation | null {
+    const isInvalidValue =
+      (typeof value === "string" || Array.isArray(value)) &&
+      value.length > maxLength;
+
+    return isInvalidValue
+      ? ErrorValidation.newError(
+          errorMessage ??
+            `O valor não pode ter mais que ${maxLength} caracteres!`,
+          value,
+          { maxLength }
+        )
+      : null;
+  }
+
+  static isNumber<T>(value: T, errorMessage?: string): ErrorValidation | null {
+    const isValidValue = typeof value === "number" && !isNaN(value);
+
+    return isValidValue
+      ? null
+      : ErrorValidation.newError(
+          errorMessage ?? "O valor deve ser um número válido!",
+          value
+        );
+  }
+
+  static isString<T>(value: T, errorMessage?: string): ErrorValidation | null {
+    const isValidValue = typeof value === "string";
+
+    return isValidValue
+      ? null
+      : ErrorValidation.newError(
+          errorMessage ?? "O valor deve ser do tipo string!"
+        );
+  }
+
+  static matchesRegex(
     value: string,
     regex: RegExp,
-    errorMessage: string
+    errorMessage?: string
   ): ErrorValidation | null {
-    return regex.test(value)
+    const isValidValue = typeof value === "string" && regex.test(value);
+
+    return isValidValue
       ? null
-      : ErrorValidation.newError(errorMessage, value);
+      : ErrorValidation.newError(
+          errorMessage ?? "O valor não corresponde ao padrão esperado!",
+          value
+        );
   }
 }
