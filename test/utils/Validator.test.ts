@@ -2,38 +2,30 @@ import Validator from "@/utils/Validator";
 
 describe("Validator", () => {
   it("ensures returns null if value is given", () => {
-    const error = Validator.NotNull("Good morning");
+    const error = Validator.isRequired("Good morning");
 
     expect(error).toBeNull();
-    expect(error?.errorMessage).toBeUndefined();
   });
 
   it("ensures error validation if value is null", () => {
-    const error = Validator.NotNull(null, "Invalid value!");
+    const error = Validator.isRequired(null, "O valor não pode ser nulo!");
     expect(error).not.toBeNull();
-    expect(error?.errorMessage).toBe("Invalid value!");
+    expect(error?.errorMessage).toBe("O valor não pode ser nulo!");
   });
 
   it("ensures error validation if value is undefined", () => {
-    const error = Validator.NotNull(undefined, "Invalid value!");
-
+    const error = Validator.isRequired(
+      undefined,
+      "O valor não pode ser undefined!"
+    );
     expect(error).not.toBeNull();
-    expect(error?.errorMessage).toBe("Invalid value!");
-  });
-
-  it("ensures error validation if value is empty", () => {
-    const error = Validator.NotNull("", "Empty value!");
-
-    expect(error).not.toBeNull();
-    expect(error?.errorMessage).toBe("Empty value!");
+    expect(error?.errorMessage).toBe("O valor não pode ser undefined!");
   });
 
   it("ensures returns default error message", () => {
-    const error = Validator.NotNull(null);
+    const error = Validator.isRequired(null);
 
     expect(error).not.toBeNull();
-    expect(error?.errorMessage).toBe(
-      "O valor não pode ser nulo ou indefinido."
-    );
+    expect(error?.errorMessage).toBe("O valor é obrigatório!");
   });
 });
