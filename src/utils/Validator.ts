@@ -1,7 +1,7 @@
 import ErrorValidation from "@/error/ErrorValidation";
 
 export default class Validator {
-  static Notifications(
+  static notifications(
     ...errors: (ErrorValidation | null)[]
   ): ErrorValidation[] | null {
     const filteredErrors = errors.filter(
@@ -25,7 +25,7 @@ export default class Validator {
   }
 
   static isDefined<T>(value: T, errorMessage?: string): ErrorValidation | null {
-    const isValidValue = value !== undefined;
+    const isValidValue = value !== undefined && value !== null;
 
     return isValidValue
       ? null
@@ -35,7 +35,7 @@ export default class Validator {
         );
   }
 
-  static isNotEmpty<T>(value: T, errorMessage = "O valor não pode ser vazio!") {
+  static isNotEmpty<T>(value: T, errorMessage?: string) {
     let isValidValue = true;
 
     switch (typeof value) {
@@ -64,10 +64,16 @@ export default class Validator {
         break;
 
       default:
+        isValidValue = false;
         break;
     }
 
-    return isValidValue ? null : ErrorValidation.newError(errorMessage, value);
+    return isValidValue
+      ? null
+      : ErrorValidation.newError(
+          errorMessage ?? "O valor não pode ser vazio!",
+          value
+        );
   }
 
   static isShorterThan(
@@ -109,7 +115,7 @@ export default class Validator {
   }
 
   static isNumber<T>(value: T, errorMessage?: string): ErrorValidation | null {
-    const isValidValue = typeof value === "number" && isNaN(value);
+    const isValidValue = typeof value === "number" && !isNaN(value);
 
     return isValidValue
       ? null
