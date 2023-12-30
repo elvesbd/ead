@@ -1,152 +1,140 @@
-import ErrorValidation from "@/error/ErrorValidation";
+import { errorMessages } from '@/constants/ErrorMessages';
+import ErrorValidation from '@/error/ErrorValidation';
 
 export default class Validator {
-  static notifications(
-    ...errors: (ErrorValidation | null)[]
-  ): ErrorValidation[] | null {
-    const filteredErrors = errors.filter(
+  private errors: (ErrorValidation | null)[] = [];
+
+  constructor() {
+    this.errors = [];
+  }
+
+  isRequired<T>(value: T, key: string, errorMessage?: string) {
+    const isValidValue = value !== null && value !== undefined;
+    if (!isValidValue) {
+      this.errors.push(
+        ErrorValidation.newError(
+          errorMessage ?? errorMessages.required(key),
+          value
+        )
+      );
+    }
+
+    return this;
+  }
+
+  isNotEmpty<T>(value: T, key: string, errorMessage?: string) {
+    const isEmpty =
+      value === undefined ||
+      value === null ||
+      (typeof value === 'string' && value.trim() === '');
+
+    let isValidValue = true;
+
+    if (isEmpty) {
+      isValidValue = false;
+    }
+
+    if (!isValidValue) {
+      this.errors.push(
+        ErrorValidation.newError(
+          errorMessage ?? errorMessages.empty(key),
+          value
+        )
+      );
+    }
+
+    return this;
+  }
+
+  isShorterThan(
+    value: string | string[],
+    key: string,
+    length: number,
+    errorMessage?: string
+  ) {
+    const isValidValue =
+      (typeof value === 'string' || Array.isArray(value)) &&
+      value.length < length;
+
+    if (isValidValue) {
+      this.errors.push(
+        ErrorValidation.newError(
+          errorMessage ?? errorMessages.minLength(length, key),
+          value,
+          { minlength: length }
+        )
+      );
+    }
+    return this;
+  }
+
+  isLongerThan(
+    value: string | string[],
+    key: string,
+    length: number,
+    errorMessage?: string
+  ) {
+    const isValidValue =
+      (typeof value === 'string' || Array.isArray(value)) &&
+      value.length > length;
+
+    if (isValidValue) {
+      this.errors.push(
+        ErrorValidation.newError(
+          errorMessage ?? errorMessages.maxLength(length, key),
+          value,
+          { maxLength: length }
+        )
+      );
+    }
+    return this;
+  }
+
+  isNumber<T>(value: T, key: string, errorMessage?: string) {
+    const isValidValue = typeof value === 'number' && !isNaN(value);
+    if (!isValidValue) {
+      this.errors.push(
+        ErrorValidation.newError(
+          errorMessage ?? errorMessages.number(key),
+          value
+        )
+      );
+    }
+    return this;
+  }
+
+  isString<T>(value: T, key: string, errorMessage?: string) {
+    const isValidValue = typeof value === 'string';
+    if (!isValidValue) {
+      this.errors.push(
+        ErrorValidation.newError(errorMessage ?? errorMessages.string(key))
+      );
+    }
+    return this;
+  }
+
+  matchesRegex(
+    value: string,
+    regex: RegExp,
+    key: string,
+    errorMessage?: string
+  ) {
+    const isValidValue = typeof value === 'string' && regex.test(value);
+    if (!isValidValue) {
+      this.errors.push(
+        ErrorValidation.newError(
+          errorMessage ?? errorMessages.regex(key),
+          value
+        )
+      );
+    }
+    return this;
+  }
+
+  build(): ErrorValidation[] | null {
+    const filteredErrors = this.errors.filter(
       (error) => error !== null
     ) as ErrorValidation[];
     return filteredErrors.length > 0 ? filteredErrors : null;
-  }
-
-  static isRequired<T>(
-    value: T,
-    errorMessage?: string
-  ): ErrorValidation | null {
-    const isValidValue = value !== null && value !== undefined;
-
-    return isValidValue
-      ? null
-      : ErrorValidation.newError(
-          errorMessage ?? "O valor é obrigatório!",
-          value
-        );
-  }
-
-  static isDefined<T>(value: T, errorMessage?: string): ErrorValidation | null {
-    const isValidValue = value !== undefined && value !== null;
-
-    return isValidValue
-      ? null
-      : ErrorValidation.newError(
-          errorMessage ?? "O valor não pode ser indefinido!",
-          value
-        );
-  }
-
-  static isNotEmpty<T>(value: T, errorMessage?: string) {
-    let isValidValue = true;
-
-    switch (typeof value) {
-      case "string":
-        isValidValue = value.trim() !== "";
-        break;
-
-      case "number":
-        isValidValue = !isNaN(value);
-        break;
-
-      case "boolean":
-        isValidValue = value !== undefined && value !== null;
-        break;
-
-      case "object":
-        if (value === null) {
-          isValidValue = false;
-        } else if (Array.isArray(value)) {
-          isValidValue = value.length !== 0;
-        }
-        break;
-
-      case "undefined":
-        isValidValue = false;
-        break;
-
-      default:
-        isValidValue = false;
-        break;
-    }
-
-    return isValidValue
-      ? null
-      : ErrorValidation.newError(
-          errorMessage ?? "O valor não pode ser vazio!",
-          value
-        );
-  }
-
-  static isShorterThan(
-    value: string | string[],
-    minLength: number,
-    errorMessage?: string
-  ): ErrorValidation | null {
-    const isInvalidValue =
-      (typeof value === "string" || Array.isArray(value)) &&
-      value.length < minLength;
-
-    return isInvalidValue
-      ? ErrorValidation.newError(
-          errorMessage ??
-            `O valor não pode ter menos que ${minLength} caracteres!`,
-          value,
-          { minLength }
-        )
-      : null;
-  }
-
-  static isLongerThan(
-    value: string | string[],
-    maxLength: number,
-    errorMessage?: string
-  ): ErrorValidation | null {
-    const isInvalidValue =
-      (typeof value === "string" || Array.isArray(value)) &&
-      value.length > maxLength;
-
-    return isInvalidValue
-      ? ErrorValidation.newError(
-          errorMessage ??
-            `O valor não pode ter mais que ${maxLength} caracteres!`,
-          value,
-          { maxLength }
-        )
-      : null;
-  }
-
-  static isNumber<T>(value: T, errorMessage?: string): ErrorValidation | null {
-    const isValidValue = typeof value === "number" && !isNaN(value);
-
-    return isValidValue
-      ? null
-      : ErrorValidation.newError(
-          errorMessage ?? "O valor deve ser um número válido!",
-          value
-        );
-  }
-
-  static isString<T>(value: T, errorMessage?: string): ErrorValidation | null {
-    const isValidValue = typeof value === "string";
-
-    return isValidValue
-      ? null
-      : ErrorValidation.newError(
-          errorMessage ?? "O valor deve ser do tipo string!"
-        );
-  }
-
-  static matchesRegex(
-    value: string,
-    regex: RegExp,
-    errorMessage?: string
-  ): ErrorValidation | null {
-    const isValidValue = typeof value === "string" && regex.test(value);
-
-    return isValidValue
-      ? null
-      : ErrorValidation.newError(
-          errorMessage ?? "O valor não corresponde ao padrão esperado!",
-          value
-        );
   }
 }
