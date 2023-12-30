@@ -1,6 +1,6 @@
-import ErrorType from "@/constants/ErrorType";
-import ErrorValidation from "@/error/ErrorValidation";
-import { v4 as uuid, validate } from "uuid";
+import ErrorType from '@/constants/ErrorType';
+import ErrorValidation from '@/error/ErrorValidation';
+import { v4 as uuid, validate } from 'uuid';
 
 export default class Id {
   readonly value: string;

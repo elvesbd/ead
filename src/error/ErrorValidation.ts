@@ -1,5 +1,5 @@
-import ErrorType from "@/constants/ErrorType";
-import { ErrorValidationProps } from "./interfaces/ErrorValidation";
+import ErrorType from '@/constants/ErrorType';
+import { ErrorValidationProps } from './interfaces/ErrorValidation';
 
 export default class ErrorValidation extends Error {
   readonly errorMessage: string;
