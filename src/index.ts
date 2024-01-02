@@ -1,4 +1,4 @@
-import PersonName from './shared/value-objects/PersonName';
+/* import PersonName from './shared/value-objects/PersonName';
 
 export function handler() {
   const input = {
@@ -16,3 +16,4 @@ export function handler() {
 }
 
 handler();
+ */
