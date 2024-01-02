@@ -1,5 +1,3 @@
-import ErrorType from '@/constants/ErrorType';
-import ErrorValidation from '@/error/ErrorValidation';
 import { v4 as uuid, validate } from 'uuid';
 
 export default class Id {
@@ -8,8 +6,7 @@ export default class Id {
   constructor(value?: string) {
     this.value = value ?? uuid();
 
-    if (!validate(this.value))
-      ErrorValidation.throw(ErrorType.INVALID_ID, this.value);
+    if (!validate(this.value)) throw new Error('Invalid Id');
   }
 
   isEqual(id: Id) {
