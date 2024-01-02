@@ -1,4 +1,4 @@
-export const errorMessages = {
+export const notificationMessages = {
   required: (key: string) => `${key} é obrigatório!`,
   empty: (key: string) => `${key} não pode ser vazio!`,
   minLength: (length: number, key: string) =>

@@ -1,12 +1,15 @@
-import { errorMessages } from '@/constants/ErrorMessages';
+import { notificationMessages } from '@/constants/NotificationMessages';
+import Notification from '@/utils/Notification';
 import Validator from '@/utils/Validator';
 
 describe('Class - Validator', () => {
   let validator: Validator;
+  let notification: Notification;
 
   beforeEach(() => {
     jest.clearAllMocks();
-    validator = new Validator();
+    notification = new Notification();
+    validator = new Validator(notification);
   });
 
   const props = {
@@ -14,457 +17,423 @@ describe('Class - Validator', () => {
     key: 'key',
   };
 
-  describe('build()', () => {
-    it('should returns null when there are no validation errors', () => {
-      const notifications = validator
+  describe('getResult()', () => {
+    it('should returns empty notifications when there are no notifications', () => {
+      validator
         .isRequired(props.value, props.key)
         .isNotEmpty(props.value, props.key)
         .isShorterThan(props.value, props.key, 5)
         .isLongerThan(props.value, props.key, 5)
         .isNumber(1, props.key)
         .isString(props.value, props.key)
-        .matchesRegex('12345678910', /^\d+$/, props.key)
-        .build();
+        .matchesRegex('12345678910', /^\d+$/, props.key);
 
-      expect(notifications).toBeNull();
+      const expectedResult = {
+        success: true,
+        notifications: [],
+      };
+
+      expect(notification.getResult()).toStrictEqual(expectedResult);
     });
 
-    it('should returns validation errors when errors are present', () => {
-      const notifications = validator
+    it('should returns notifications when notifications are present', () => {
+      validator
         .isRequired(null, props.key)
         .isNotEmpty('', props.key)
         .isShorterThan(props.value, props.key, 6)
         .isLongerThan(props.value, props.key, 4)
         .isNumber('1', props.key)
         .isString(1, props.key)
-        .matchesRegex('@12345678910', /^\d+$/, props.key)
-        .build();
+        .matchesRegex('@12345678910', /^\d+$/, props.key);
 
-      expect(notifications).not.toBeNull();
-      expect(notifications).toHaveLength(7);
+      const expectedResult = {
+        success: false,
+        notifications: [
+          'key é obrigatório!',
+          'key não pode ser vazio!',
+          'key não pode ter menos que 6 caracteres!',
+          'key não pode ter mais que 4 caracteres!',
+          'key deve ser um número válido!',
+          'key deve ser do tipo string!',
+          'key não corresponde ao padrão esperado!',
+        ],
+      };
+
+      expect(notification.getResult()).toStrictEqual(expectedResult);
     });
   });
 
   describe('isRequired()', () => {
-    it('should returns validation errors when value is null', () => {
-      const notifications = validator.isRequired(null, props.key).build();
+    it('should returns notification when value is null', () => {
+      validator.isRequired(null, props.key);
 
-      expect(notifications).not.toBeNull();
-      expect(notifications).toHaveLength(1);
-      expect(notifications![0].errorMessage).toBe(
-        errorMessages.required(props.key)
+      const expectedResult = {
+        notifications: ['key é obrigatório!'],
+      };
+
+      expect(notification.getNotifications()).toStrictEqual(
+        expectedResult.notifications
       );
     });
 
-    it('should returns validation errors when value is undefined', () => {
-      const notifications = validator.isRequired(undefined, props.key).build();
+    it('should returns notification when value is undefined', () => {
+      validator.isRequired(undefined, props.key);
 
-      expect(notifications).not.toBeNull();
-      expect(notifications).toHaveLength(1);
-      expect(notifications![0].errorMessage).toBe(
-        errorMessages.required(props.key)
+      const expectedResult = {
+        notifications: ['key é obrigatório!'],
+      };
+
+      expect(notification.getNotifications()).toStrictEqual(
+        expectedResult.notifications
       );
     });
 
-    it('should ensure custom error message is returned', () => {
-      const notifications = validator
-        .isRequired(null, props.key, 'O valor precisa ser definido!')
-        .build();
+    it('should ensure custom notifications message is returned', () => {
+      validator.isRequired(null, props.key, 'O valor precisa ser definido!');
 
-      expect(notifications).not.toBeNull();
-      expect(notifications).toHaveLength(1);
-      expect(notifications![0].errorMessage).toBe(
-        'O valor precisa ser definido!'
+      const expectedResult = {
+        notifications: ['O valor precisa ser definido!'],
+      };
+
+      expect(notification.getNotifications()).toStrictEqual(
+        expectedResult.notifications
       );
     });
 
-    it('should returns null when there are no validation errors', () => {
-      const notifications = validator
-        .isRequired(props.value, props.key)
-        .build();
-
-      expect(notifications).toBeNull();
+    it('should returns empty notification for a valid value', () => {
+      validator.isRequired(props.value, props.key);
+      expect(notification.getNotifications()).toStrictEqual([]);
     });
   });
 
   describe('isNotEmpty()', () => {
-    it('should returns validation errors when value is empty string', () => {
-      const notifications = validator.isNotEmpty('', props.key).build();
+    it('should returns notifications when value is empty string', () => {
+      validator.isNotEmpty('', props.key);
 
-      expect(notifications).not.toBeNull();
-      expect(notifications).toHaveLength(1);
-      expect(notifications![0]?.errorMessage).toBe(
-        errorMessages.empty(props.key)
+      const expectedResult = {
+        notifications: ['key não pode ser vazio!'],
+      };
+
+      expect(notification.getNotifications()).toStrictEqual(
+        expectedResult.notifications
       );
     });
 
-    it('should returns validation errors when value is undefined', () => {
-      const notifications = validator.isNotEmpty(undefined, props.key).build();
+    it('should returns notifications when value is undefined', () => {
+      validator.isNotEmpty(undefined, props.key);
 
-      expect(notifications).not.toBeNull();
-      expect(notifications).toHaveLength(1);
-      expect(notifications![0]?.errorMessage).toBe(
-        errorMessages.empty(props.key)
+      const expectedResult = {
+        notifications: ['key não pode ser vazio!'],
+      };
+
+      expect(notification.getNotifications()).toStrictEqual(
+        expectedResult.notifications
       );
     });
 
-    it('should returns validation errors when value is null', () => {
-      const notifications = validator.isNotEmpty(null, props.key).build();
+    it('should returns notifications when value is null', () => {
+      validator.isNotEmpty(null, props.key);
 
-      expect(notifications).not.toBeNull();
-      expect(notifications).toHaveLength(1);
-      expect(notifications![0]?.errorMessage).toBe(
-        errorMessages.empty(props.key)
+      const expectedResult = {
+        notifications: ['key não pode ser vazio!'],
+      };
+
+      expect(notification.getNotifications()).toStrictEqual(
+        expectedResult.notifications
       );
     });
 
-    it('should returns custom error message is returned', () => {
-      const notifications = validator
-        .isNotEmpty(null, props.key, 'Não deve ser vazio!')
-        .build();
+    it('should returns custom notification message is returned', () => {
+      validator.isNotEmpty(null, props.key, 'Não deve ser vazio!');
 
-      expect(notifications).not.toBeNull();
-      expect(notifications).toHaveLength(1);
-      expect(notifications![0]?.errorMessage).toBe('Não deve ser vazio!');
+      const expectedResult = {
+        notifications: ['Não deve ser vazio!'],
+      };
+
+      expect(notification.getNotifications()).toStrictEqual(
+        expectedResult.notifications
+      );
     });
 
-    it('should returns null when there are no validation errors', () => {
-      const notifications = validator
-        .isNotEmpty(props.value, props.key)
-        .build();
-
-      expect(notifications).toBeNull();
+    it('should returns empty notification for a valid value', () => {
+      validator.isNotEmpty(props.value, props.key);
+      expect(notification.getNotifications()).toStrictEqual([]);
     });
   });
 
   describe('isShorterThan()', () => {
     let minLength = 0;
 
-    it('should returns minLength error for short string', () => {
+    it('should returns minLength notification for short string', () => {
       minLength = 6;
-      const notifications = validator
-        .isShorterThan(props.value, props.key, minLength)
-        .build();
+      validator.isShorterThan(props.value, props.key, minLength);
 
-      expect(notifications).not.toBeNull();
-      expect(notifications).toHaveLength(1);
-      expect(notifications![0].errorMessage).toBe(
-        errorMessages.minLength(minLength, props.key)
+      const expectedResult = {
+        notifications: ['key não pode ter menos que 6 caracteres!'],
+      };
+
+      expect(notification.getNotifications()).toStrictEqual(
+        expectedResult.notifications
       );
     });
 
-    it('should returns minLength error for short string array', () => {
+    it('should returns minLength notification for short string array', () => {
       minLength = 2;
-      const notifications = validator
-        .isShorterThan([props.value], props.key, minLength)
-        .build();
+      validator.isShorterThan([props.value], props.key, minLength);
 
-      expect(notifications).not.toBeNull();
-      expect(notifications).toHaveLength(1);
-      expect(notifications![0].errorMessage).toBe(
-        errorMessages.minLength(2, props.key)
+      const expectedResult = {
+        notifications: ['key não pode ter menos que 2 caracteres!'],
+      };
+
+      expect(notification.getNotifications()).toStrictEqual(
+        expectedResult.notifications
       );
     });
 
-    it('should returns custom error message for short string', () => {
+    it('should returns custom notification message for short string', () => {
       minLength = 6;
-      const notifications = validator
-        .isShorterThan(
-          props.value,
-          props.key,
-          minLength,
-          'O valor não pode ser menor!'
-        )
-        .build();
-
-      expect(notifications).not.toBeNull();
-      expect(notifications).toHaveLength(1);
-      expect(notifications![0].errorMessage).toBe(
+      validator.isShorterThan(
+        props.value,
+        props.key,
+        minLength,
         'O valor não pode ser menor!'
       );
+
+      const expectedResult = {
+        notifications: ['O valor não pode ser menor!'],
+      };
+
+      expect(notification.getNotifications()).toStrictEqual(
+        expectedResult.notifications
+      );
     });
 
-    it('should returns null for valid string length', () => {
+    it('should returns empty notification for valid string length', () => {
       minLength = 5;
-      const notifications = validator
-        .isShorterThan(props.value, props.key, minLength)
-        .build();
+      validator.isShorterThan(props.value, props.key, minLength);
 
-      expect(notifications).toBeNull();
+      expect(notification.getNotifications()).toStrictEqual([]);
     });
 
-    it('should returns null for valid string array length', () => {
+    it('should returns empty notification for valid string array length', () => {
       minLength = 1;
-      const notifications = validator
-        .isShorterThan([props.value], props.key, minLength)
-        .build();
+      validator.isShorterThan([props.value], props.key, minLength);
 
-      expect(notifications).toBeNull();
+      expect(notification.getNotifications()).toStrictEqual([]);
     });
   });
 
   describe('isLongerThan()', () => {
     let maxLength = 0;
 
-    it('should returns maxLength error for long string', () => {
+    it('should returns maxLength notification for long string', () => {
       maxLength = 4;
-      const notifications = validator
-        .isLongerThan(props.value, props.key, maxLength)
-        .build();
+      validator.isLongerThan(props.value, props.key, maxLength);
 
-      expect(notifications).not.toBeNull();
-      expect(notifications).toHaveLength(1);
-      expect(notifications![0].errorMessage).toBe(
-        errorMessages.maxLength(maxLength, props.key)
-      );
+      const message = notificationMessages.maxLength(maxLength, props.key);
+
+      expect(notification.getNotifications()).toStrictEqual([message]);
     });
 
-    it('should returns maxLength error for long string array', () => {
+    it('should returns maxLength notification for long string array', () => {
       maxLength = 1;
-      const notifications = validator
-        .isLongerThan([props.value, props.value], props.key, maxLength)
-        .build();
+      validator.isLongerThan([props.value, props.value], props.key, maxLength);
 
-      expect(notifications).not.toBeNull();
-      expect(notifications).toHaveLength(1);
-      expect(notifications![0].errorMessage).toBe(
-        errorMessages.maxLength(maxLength, props.key)
-      );
+      const message = notificationMessages.maxLength(maxLength, props.key);
+
+      expect(notification.getNotifications()).toStrictEqual([message]);
     });
 
-    it('should returns custom error message for long string', () => {
+    it('should returns custom notification message for long string', () => {
       maxLength = 4;
-      const notifications = validator
-        .isLongerThan(
-          props.value,
-          props.key,
-          maxLength,
-          'O valor não pode ser maior!'
-        )
-        .build();
-
-      expect(notifications).not.toBeNull();
-      expect(notifications).toHaveLength(1);
-      expect(notifications![0].errorMessage).toBe(
+      validator.isLongerThan(
+        props.value,
+        props.key,
+        maxLength,
         'O valor não pode ser maior!'
       );
+
+      expect(notification.getNotifications()).toStrictEqual([
+        'O valor não pode ser maior!',
+      ]);
     });
 
-    it('should returns null for valid string length', () => {
+    it('should returns empty notification for valid string length', () => {
       maxLength = 5;
-      const error = validator
-        .isLongerThan(props.value, props.key, maxLength)
-        .build();
+      validator.isLongerThan(props.value, props.key, maxLength);
 
-      expect(error).toBeNull();
+      expect(notification.getNotifications()).toStrictEqual([]);
     });
 
-    it('should returns null for valid string array length', () => {
+    it('should returns empty notification for valid string array length', () => {
       maxLength = 1;
-      const notifications = validator
-        .isLongerThan([props.value], props.key, maxLength)
-        .build();
+      validator.isLongerThan([props.value], props.key, maxLength);
 
-      expect(notifications).toBeNull();
+      expect(notification.getNotifications()).toStrictEqual([]);
     });
   });
 
   describe('isNumber()', () => {
-    it('should return isNumber error for string', () => {
-      const notifications = validator.isNumber('1', props.key).build();
+    it('should return isNumber notification for string value', () => {
+      validator.isNumber('1', props.key);
 
-      expect(notifications).not.toBeNull();
-      expect(notifications).toHaveLength(1);
-      expect(notifications![0].errorMessage).toBe(
-        errorMessages.number(props.key)
-      );
+      const message = notificationMessages.number(props.key);
+
+      expect(notification.getNotifications()).toStrictEqual([message]);
     });
 
-    it('should return isNumber error for boolean', () => {
-      const notifications = validator.isNumber(true, props.key).build();
+    it('should return isNumber notification for boolean value', () => {
+      validator.isNumber(true, props.key);
 
-      expect(notifications).not.toBeNull();
-      expect(notifications).toHaveLength(1);
-      expect(notifications![0].errorMessage).toBe(
-        errorMessages.number(props.key)
-      );
+      const message = notificationMessages.number(props.key);
+
+      expect(notification.getNotifications()).toStrictEqual([message]);
     });
 
-    it('should return isNumber error for object', () => {
-      const notifications = validator.isNumber({}, props.key).build();
+    it('should return isNumber notification for object value', () => {
+      validator.isNumber({}, props.key);
 
-      expect(notifications).not.toBeNull();
-      expect(notifications).toHaveLength(1);
-      expect(notifications![0].errorMessage).toBe(
-        errorMessages.number(props.key)
-      );
+      const message = notificationMessages.number(props.key);
+
+      expect(notification.getNotifications()).toStrictEqual([message]);
     });
 
-    it('should return isNumber error for undefined', () => {
-      const notifications = validator.isNumber(undefined, props.key).build();
+    it('should return isNumber notification for undefined value', () => {
+      validator.isNumber(undefined, props.key);
 
-      expect(notifications).not.toBeNull();
-      expect(notifications).toHaveLength(1);
-      expect(notifications![0].errorMessage).toBe(
-        errorMessages.number(props.key)
-      );
+      const message = notificationMessages.number(props.key);
+
+      expect(notification.getNotifications()).toStrictEqual([message]);
     });
 
-    it('should return isNumber error for null', () => {
-      const notifications = validator.isNumber(null, props.key).build();
+    it('should return isNumber notification for null value', () => {
+      validator.isNumber(null, props.key);
 
-      expect(notifications).not.toBeNull();
-      expect(notifications).toHaveLength(1);
-      expect(notifications![0].errorMessage).toBe(
-        errorMessages.number(props.key)
-      );
+      const message = notificationMessages.number(props.key);
+
+      expect(notification.getNotifications()).toStrictEqual([message]);
     });
 
-    it('should return isNumber error for NaN', () => {
-      const notifications = validator.isNumber(NaN, props.key).build();
+    it('should return isNumber notification for NaN value', () => {
+      validator.isNumber(NaN, props.key);
 
-      expect(notifications).not.toBeNull();
-      expect(notifications).toHaveLength(1);
-      expect(notifications![0].errorMessage).toBe(
-        errorMessages.number(props.key)
-      );
+      const message = notificationMessages.number(props.key);
+
+      expect(notification.getNotifications()).toStrictEqual([message]);
     });
 
-    it('should returns isNumber error with custom error message if type not number', () => {
-      const notifications = validator
-        .isNumber(NaN, props.key, 'O valor informado deve ser do tipo number!')
-        .build();
-
-      expect(notifications).not.toBeNull();
-      expect(notifications).toHaveLength(1);
-      expect(notifications![0].errorMessage).toBe(
+    it('should returns isNumber notification with custom error message if type NaN', () => {
+      validator.isNumber(
+        NaN,
+        props.key,
         'O valor informado deve ser do tipo number!'
       );
+
+      expect(notification.getNotifications()).toStrictEqual([
+        'O valor informado deve ser do tipo number!',
+      ]);
     });
 
-    it('should returns null for valid number', () => {
-      const notifications = validator.isNumber(1, props.key).build();
+    it('should returns empty notifications for valid number', () => {
+      validator.isNumber(1, props.key);
 
-      expect(notifications).toBeNull();
+      expect(notification.getNotifications()).toStrictEqual([]);
     });
   });
 
   describe('isString()', () => {
-    it('should return isString error for number', () => {
-      const notifications = validator.isString(1, props.key).build();
+    it('should return isString notification for number', () => {
+      validator.isString(1, props.key);
 
-      expect(notifications).not.toBeNull();
-      expect(notifications).toHaveLength(1);
-      expect(notifications![0].errorMessage).toBe(
-        errorMessages.string(props.key)
-      );
+      const message = notificationMessages.string(props.key);
+
+      expect(notification.getNotifications()).toStrictEqual([message]);
     });
 
-    it('should return isString error for boolean', () => {
-      const notifications = validator.isString(true, props.key).build();
+    it('should return isString notification for boolean', () => {
+      validator.isString(true, props.key);
 
-      expect(notifications).not.toBeNull();
-      expect(notifications).toHaveLength(1);
-      expect(notifications![0].errorMessage).toBe(
-        errorMessages.string(props.key)
-      );
+      const message = notificationMessages.string(props.key);
+
+      expect(notification.getNotifications()).toStrictEqual([message]);
     });
 
-    it('should return isString error for object', () => {
-      const notifications = validator.isString({}, props.key).build();
+    it('should return isString notification for object', () => {
+      validator.isString({}, props.key);
 
-      expect(notifications).not.toBeNull();
-      expect(notifications).toHaveLength(1);
-      expect(notifications![0].errorMessage).toBe(
-        errorMessages.string(props.key)
-      );
+      const message = notificationMessages.string(props.key);
+
+      expect(notification.getNotifications()).toStrictEqual([message]);
     });
 
-    it('should return isString error for undefined', () => {
-      const notifications = validator.isString(undefined, props.key).build();
+    it('should return isString notification for undefined', () => {
+      validator.isString(undefined, props.key);
 
-      expect(notifications).not.toBeNull();
-      expect(notifications).toHaveLength(1);
-      expect(notifications![0].errorMessage).toBe(
-        errorMessages.string(props.key)
-      );
+      const message = notificationMessages.string(props.key);
+
+      expect(notification.getNotifications()).toStrictEqual([message]);
     });
 
-    it('should return isString error for null', () => {
-      const notifications = validator.isString(null, props.key).build();
+    it('should return isString notification for null', () => {
+      validator.isString(null, props.key);
 
-      expect(notifications).not.toBeNull();
-      expect(notifications).toHaveLength(1);
-      expect(notifications![0].errorMessage).toBe(
-        errorMessages.string(props.key)
-      );
+      const message = notificationMessages.string(props.key);
+
+      expect(notification.getNotifications()).toStrictEqual([message]);
     });
 
-    it('should return isString error for NaN', () => {
-      const notifications = validator.isString(NaN, props.key).build();
+    it('should return isString notification for NaN', () => {
+      validator.isString(NaN, props.key);
 
-      expect(notifications).not.toBeNull();
-      expect(notifications).toHaveLength(1);
-      expect(notifications![0].errorMessage).toBe(
-        errorMessages.string(props.key)
-      );
+      const message = notificationMessages.string(props.key);
+
+      expect(notification.getNotifications()).toStrictEqual([message]);
     });
 
-    it('should returns isString error with custom error message if type not string', () => {
-      const notifications = validator
-        .isString(NaN, props.key, 'O valor informado deve ser do tipo string!')
-        .build();
-
-      expect(notifications).not.toBeNull();
-      expect(notifications).toHaveLength(1);
-      expect(notifications![0].errorMessage).toBe(
+    it('should returns isString notification with custom notification message if type not string', () => {
+      validator.isString(
+        NaN,
+        props.key,
         'O valor informado deve ser do tipo string!'
       );
+
+      expect(notification.getNotifications()).toStrictEqual([
+        'O valor informado deve ser do tipo string!',
+      ]);
     });
 
-    it('should returns null for valid string', () => {
-      const notifications = validator.isString(props.value, props.key).build();
+    it('should returns empty notification for valid string value', () => {
+      validator.isString(props.value, props.key);
 
-      expect(notifications).toBeNull();
+      expect(notification.getNotifications()).toStrictEqual([]);
     });
   });
 
   describe('matchesRegex()', () => {
-    it('should returns null for valid regex', () => {
-      const notifications = validator
-        .matchesRegex('12345678900', /^\d+$/, props.key)
-        .build();
+    it('should returns matchesRegex notification for test not valid regex', () => {
+      validator.matchesRegex('@2345678900', /^\d+$/, props.key);
 
-      expect(notifications).toBeNull();
+      const message = notificationMessages.regex(props.key);
+
+      expect(notification.getNotifications()).toStrictEqual([message]);
     });
 
-    it('should returns matchesRegex error for test not valid regex', () => {
-      const notifications = validator
-        .matchesRegex('@2345678900', /^\d+$/, props.key)
-        .build();
-
-      expect(notifications).not.toBeNull();
-      expect(notifications).toHaveLength(1);
-      expect(notifications![0].errorMessage).toBe(
-        errorMessages.regex(props.key)
-      );
-    });
-
-    it('should returns matchesRegex error with custom error message if test not valid regex', () => {
-      const notifications = validator
-        .matchesRegex(
-          '@2345678900',
-          /^\d+$/,
-          props.key,
-          'O valor não corresponde ao padrão da regex informada!'
-        )
-        .build();
-
-      expect(notifications).not.toBeNull();
-      expect(notifications).toHaveLength(1);
-      expect(notifications![0].errorMessage).toBe(
+    it('should returns matchesRegex notification with notification error message if test not valid regex', () => {
+      validator.matchesRegex(
+        '@2345678900',
+        /^\d+$/,
+        props.key,
         'O valor não corresponde ao padrão da regex informada!'
       );
+
+      expect(notification.getNotifications()).toStrictEqual([
+        'O valor não corresponde ao padrão da regex informada!',
+      ]);
+    });
+
+    it('should returns empty notification for valid regex value', () => {
+      validator.matchesRegex('12345678900', /^\d+$/, props.key);
+      expect(notification.getNotifications()).toStrictEqual([]);
     });
   });
 });
