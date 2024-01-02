@@ -14,7 +14,7 @@ describe('Value Object - Id', () => {
 
   it('should returns throwing error if trying create an invalid id', () => {
     const execute = () => new Id('123');
-    expect(execute).toThrow('Invalid Id');
+    expect(execute).toThrow(new Error('Invalid Id'));
   });
 
   it('should returns return true if ids is equals', () => {
