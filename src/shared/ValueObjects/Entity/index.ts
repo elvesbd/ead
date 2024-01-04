@@ -1,7 +1,7 @@
 import Id from '../Id';
-import { EntityInput } from './types/EntityInput';
+import { EntityProps } from './types/EntityProps';
 
-export default abstract class Entity<T, Props extends EntityInput> {
+export default abstract class Entity<T, Props extends EntityProps> {
   readonly id: Id;
   readonly props: Props;
 

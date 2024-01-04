@@ -1,13 +1,13 @@
 import Id from '@/shared/ValueObjects/Id';
 import Entity from '@/shared/ValueObjects/Entity';
-import { EntityInput } from '@/shared/ValueObjects/Entity/types/EntityInput';
+import { EntityProps } from '@/shared/ValueObjects/Entity/types/EntityProps';
 
-interface EntitySPYInput extends EntityInput {
+interface EntitySPYProps extends EntityProps {
   name: string;
   age: number;
 }
 
-class EntitySPY extends Entity<EntitySPY, EntitySPYInput> {}
+class EntitySPY extends Entity<EntitySPY, EntitySPYProps> {}
 
 describe('Value Object - Entity', () => {
   const input = {
