@@ -7,11 +7,7 @@ interface EntitySPYInput extends EntityInput {
   age: number;
 }
 
-class EntitySPY extends Entity<EntitySPY, EntitySPYInput> {
-  constructor(input: EntitySPYInput) {
-    super(input);
-  }
-}
+class EntitySPY extends Entity<EntitySPY, EntitySPYInput> {}
 
 describe('Value Object - Entity', () => {
   const input = {
