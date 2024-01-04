@@ -6,9 +6,9 @@ export default class PersonName {
   private readonly firstName: string;
   private readonly lastName: string;
 
-  constructor(input: PersonNameProps) {
-    this.firstName = input.firstName;
-    this.lastName = input.lastName;
+  constructor(props: PersonNameProps) {
+    this.firstName = props.firstName;
+    this.lastName = props.lastName;
   }
 
   validate(): ValidatorOutput {
