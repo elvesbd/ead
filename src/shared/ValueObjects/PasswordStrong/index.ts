@@ -1,7 +1,7 @@
 import Validator from '@/utils/Validator';
 import { ValidatorOutput } from '@/utils/Validator/types/Validator';
 
-export default class StrongPassword {
+export default class PasswordStrong {
   private readonly value: string;
 
   constructor(value: string) {
