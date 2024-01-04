@@ -8,4 +8,5 @@ export const notificationMessages = {
   number: (key: string) => `${key} deve ser um número válido!`,
   string: (key: string) => `${key} deve ser do tipo string!`,
   regex: (key: string) => `${key} não corresponde ao padrão esperado!`,
+  email: () => `deve ser um endereço de e-mail válido!`,
 };

@@ -3,7 +3,7 @@ import { ValidatorOutput } from './types/Validator';
 import { notificationMessages } from '@/constants/NotificationMessages';
 
 export default class Validator extends Notification {
-  public isRequired<T>(value: T, key: string, errorMessage?: string) {
+  public isRequired(value: unknown, key: string, errorMessage?: string) {
     const isValidValue = value !== null && value !== undefined;
     if (!isValidValue) {
       const message = errorMessage ?? notificationMessages.required(key);
@@ -13,19 +13,13 @@ export default class Validator extends Notification {
     return this;
   }
 
-  public isNotEmpty<T>(value: T, key: string, errorMessage?: string) {
-    const isEmpty =
+  public isNotEmpty(value: unknown, key: string, errorMessage?: string) {
+    const empty =
       value === undefined ||
       value === null ||
       (typeof value === 'string' && value.trim() === '');
 
-    let isValidValue = true;
-
-    if (isEmpty) {
-      isValidValue = false;
-    }
-
-    if (!isValidValue) {
+    if (empty) {
       const message = errorMessage ?? notificationMessages.empty(key);
       this.addNotification(message);
     }
@@ -70,7 +64,7 @@ export default class Validator extends Notification {
     return this;
   }
 
-  public isNumber<T>(value: T, key: string, errorMessage?: string) {
+  public isNumber(value: unknown, key: string, errorMessage?: string) {
     const isValidValue = typeof value === 'number' && !isNaN(value);
     if (!isValidValue) {
       const message = errorMessage ?? notificationMessages.number(key);
@@ -79,7 +73,7 @@ export default class Validator extends Notification {
     return this;
   }
 
-  public isString<T>(value: T, key: string, errorMessage?: string) {
+  public isString(value: unknown, key: string, errorMessage?: string) {
     const isValidValue = typeof value === 'string';
     if (!isValidValue) {
       const message = errorMessage ?? notificationMessages.string(key);
@@ -90,7 +84,7 @@ export default class Validator extends Notification {
   }
 
   public matchesRegex(
-    value: string,
+    value: unknown,
     regex: RegExp,
     key: string,
     errorMessage?: string
@@ -100,6 +94,17 @@ export default class Validator extends Notification {
       const message = errorMessage ?? notificationMessages.regex(key);
       this.addNotification(message);
     }
+    return this;
+  }
+
+  public isEmail(value: unknown, errorMessage?: string) {
+    const regex = /^[a-z0-9.]+@[a-z0-9]+\.[a-z]+(\.[a-z]+)?$/i;
+    const valid = typeof value === 'string' && regex.test(value);
+    if (!valid) {
+      const message = errorMessage ?? notificationMessages.email();
+      this.addNotification(message);
+    }
+
     return this;
   }
 

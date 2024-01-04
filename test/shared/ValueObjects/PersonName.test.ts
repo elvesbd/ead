@@ -1,10 +1,10 @@
 import PersonName from '@/shared/ValueObjects/PersonName';
-import { PersonNameInput } from '@/shared/ValueObjects/PersonName/types/PersonNameInput';
+import { PersonNameProps } from '@/shared/ValueObjects/PersonName/types/PersonNameProps';
 
 describe('Value Object - PersonName', () => {
   let personName: PersonName;
 
-  const props: PersonNameInput = {
+  const props: PersonNameProps = {
     firstName: 'Elves',
     lastName: 'Brito',
   };
@@ -47,7 +47,7 @@ describe('Value Object - PersonName', () => {
     });
 
     it('should return notifications for an invalid first name', async () => {
-      const invalidProps: PersonNameInput = {
+      const invalidProps: PersonNameProps = {
         firstName: '',
         lastName: 'Brito',
       };
@@ -67,7 +67,7 @@ describe('Value Object - PersonName', () => {
     });
 
     it('should return notifications for an invalid last name', async () => {
-      const invalidProps: PersonNameInput = {
+      const invalidProps: PersonNameProps = {
         firstName: 'Elves',
         lastName: '',
       };

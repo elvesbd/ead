@@ -1,14 +1,14 @@
 import Validator from '@/utils/Validator';
-import { PersonNameInput } from './types/PersonNameInput';
+import { PersonNameProps } from './types/PersonNameProps';
 import { ValidatorOutput } from '@/utils/Validator/types/Validator';
 
 export default class PersonName {
   private readonly firstName: string;
   private readonly lastName: string;
 
-  constructor(input: PersonNameInput) {
-    this.firstName = input.firstName;
-    this.lastName = input.lastName;
+  constructor(props: PersonNameProps) {
+    this.firstName = props.firstName;
+    this.lastName = props.lastName;
   }
 
   validate(): ValidatorOutput {
