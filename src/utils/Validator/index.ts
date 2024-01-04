@@ -1,14 +1,13 @@
 import { notificationMessages } from '@/constants/NotificationMessages';
 import Notification from '../Notification';
+import { Output } from '../Notification/types/output';
 
-export default class Validator {
-  constructor(private readonly notification: Notification) {}
-
+export default class Validator extends Notification {
   public isRequired<T>(value: T, key: string, errorMessage?: string) {
     const isValidValue = value !== null && value !== undefined;
     if (!isValidValue) {
       const message = errorMessage ?? notificationMessages.required(key);
-      this.notification.addNotification(message);
+      this.addNotification(message);
     }
 
     return this;
@@ -28,7 +27,7 @@ export default class Validator {
 
     if (!isValidValue) {
       const message = errorMessage ?? notificationMessages.empty(key);
-      this.notification.addNotification(message);
+      this.addNotification(message);
     }
 
     return this;
@@ -47,7 +46,7 @@ export default class Validator {
     if (isValidValue) {
       const message =
         errorMessage ?? notificationMessages.minLength(length, key);
-      this.notification.addNotification(message);
+      this.addNotification(message);
     }
 
     return this;
@@ -66,7 +65,7 @@ export default class Validator {
     if (isValidValue) {
       const message =
         errorMessage ?? notificationMessages.maxLength(length, key);
-      this.notification.addNotification(message);
+      this.addNotification(message);
     }
     return this;
   }
@@ -75,7 +74,7 @@ export default class Validator {
     const isValidValue = typeof value === 'number' && !isNaN(value);
     if (!isValidValue) {
       const message = errorMessage ?? notificationMessages.number(key);
-      this.notification.addNotification(message);
+      this.addNotification(message);
     }
     return this;
   }
@@ -84,7 +83,7 @@ export default class Validator {
     const isValidValue = typeof value === 'string';
     if (!isValidValue) {
       const message = errorMessage ?? notificationMessages.string(key);
-      this.notification.addNotification(message);
+      this.addNotification(message);
     }
 
     return this;
@@ -99,8 +98,12 @@ export default class Validator {
     const isValidValue = typeof value === 'string' && regex.test(value);
     if (!isValidValue) {
       const message = errorMessage ?? notificationMessages.regex(key);
-      this.notification.addNotification(message);
+      this.addNotification(message);
     }
     return this;
+  }
+
+  public getValidationResult(): Output {
+    return this.getResult();
   }
 }
