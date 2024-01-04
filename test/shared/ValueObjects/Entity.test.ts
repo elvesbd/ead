@@ -1,17 +1,13 @@
-import Entity from '@/shared/value-objects/Entity';
-import { EntityInput } from '@/shared/value-objects/Entity/types/EntityInput';
-import Id from '@/shared/value-objects/Id';
+import Id from '@/shared/ValueObjects/Id';
+import Entity from '@/shared/ValueObjects/Entity';
+import { EntityInput } from '@/shared/ValueObjects/Entity/types/EntityInput';
 
 interface EntitySPYInput extends EntityInput {
   name: string;
   age: number;
 }
 
-class EntitySPY extends Entity<EntitySPY, EntitySPYInput> {
-  constructor(input: EntitySPYInput) {
-    super(input);
-  }
-}
+class EntitySPY extends Entity<EntitySPY, EntitySPYInput> {}
 
 describe('Value Object - Entity', () => {
   const input = {
