@@ -1,6 +1,6 @@
-import { notificationMessages } from '@/constants/NotificationMessages';
 import Notification from '../Notification';
-import { Output } from '../Notification/types/output';
+import { ValidatorOutput } from './types/Validator';
+import { notificationMessages } from '@/constants/NotificationMessages';
 
 export default class Validator extends Notification {
   public isRequired<T>(value: T, key: string, errorMessage?: string) {
@@ -103,7 +103,7 @@ export default class Validator extends Notification {
     return this;
   }
 
-  public getValidationResult(): Output {
-    return this.getResult();
+  public getOutput(): ValidatorOutput {
+    return this.getNotificationsOutput();
   }
 }

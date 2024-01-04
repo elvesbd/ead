@@ -1,6 +1,6 @@
 import Validator from '@/utils/Validator';
 import { PersonNameInput } from './types/PersonNameInput';
-import { Output } from '@/utils/Notification/types/output';
+import { ValidatorOutput } from '@/utils/Validator/types/Validator';
 
 export default class PersonName {
   private readonly firstName: string;
@@ -11,7 +11,7 @@ export default class PersonName {
     this.lastName = input.lastName;
   }
 
-  validate(): Output {
+  validate(): ValidatorOutput {
     const validation = new Validator();
     validation
       .isRequired(this.firstName, 'Nome')
@@ -29,7 +29,7 @@ export default class PersonName {
       .isString(this.lastName, 'Sobrenome')
       .matchesRegex(this.lastName, /^[a-zA-ZÁ-ú'\-\s]*$/, 'Sobrenome');
 
-    return validation.getValidationResult();
+    return validation.getOutput();
   }
 
   get getFirstName() {
