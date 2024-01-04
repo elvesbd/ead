@@ -1,4 +1,4 @@
-import { Output } from './types/output';
+import { NotificationOutput, Notifications } from './types/Notification';
 
 export default class Notification {
   private notifications: string[] = [];
@@ -15,11 +15,11 @@ export default class Notification {
     return this.notifications.length > 0;
   }
 
-  public getNotifications(): string[] {
+  public getNotifications(): Notifications {
     return this.notifications;
   }
 
-  public getResult(): Output {
+  public getNotificationsOutput(): NotificationOutput {
     return {
       success: !this.hasNotifications(),
       notifications: this.notifications,
