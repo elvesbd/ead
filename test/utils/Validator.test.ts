@@ -1,15 +1,12 @@
-import { notificationMessages } from '@/constants/NotificationMessages';
-import Notification from '@/utils/Notification';
 import Validator from '@/utils/Validator';
 import { ValidatorOutput } from '@/utils/Validator/types/Validator';
+import { notificationMessages } from '@/constants/NotificationMessages';
 
 describe('Class - Validator', () => {
   let validator: Validator;
-  let notification: Notification;
 
   beforeEach(() => {
     jest.clearAllMocks();
-    notification = new Notification();
     validator = new Validator();
   });
 
