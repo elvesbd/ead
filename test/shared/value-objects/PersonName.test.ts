@@ -14,35 +14,39 @@ describe('Value Object - PersonName', () => {
     personName = new PersonName(props);
   });
 
-  describe('getFirstName()', () => {
+  describe('Creation', () => {
+    it('should create a person name instance with success', () => {
+      expect(personName).toBeInstanceOf(PersonName);
+    });
+  });
+
+  describe('Getters', () => {
     it('should return first name with success', () => {
       expect(personName.getFirstName).toEqual(props.firstName);
     });
-  });
 
-  describe('getLastName()', () => {
     it('should return last name with success', () => {
       expect(personName.getLastName).toBe(props.lastName);
     });
-  });
 
-  describe('getInitials()', () => {
     it('should return initials name', () => {
       expect(personName.getInitials).toBe('EB');
     });
   });
 
   describe('validate()', () => {
-    it('should ', () => {
+    it('should return success for a valid person name', () => {
       const expectedResult = {
         success: true,
         notifications: [],
       };
 
-      expect(PersonName.validate(props)).toStrictEqual(expectedResult);
+      const result = personName.validate();
+
+      expect(result).toStrictEqual(expectedResult);
     });
 
-    it('should ', async () => {
+    it('should return notifications for an invalid first name', async () => {
       const invalidProps: PersonNameInput = {
         firstName: '',
         lastName: 'Brito',
@@ -56,7 +60,30 @@ describe('Value Object - PersonName', () => {
         ],
       };
 
-      expect(PersonName.validate(invalidProps)).toStrictEqual(expectedResult);
+      const invalidPersonName = new PersonName(invalidProps);
+      const result = invalidPersonName.validate();
+
+      expect(result).toStrictEqual(expectedResult);
+    });
+
+    it('should return notifications for an invalid last name', async () => {
+      const invalidProps: PersonNameInput = {
+        firstName: 'Elves',
+        lastName: '',
+      };
+
+      const expectedResult = {
+        success: false,
+        notifications: [
+          'Sobrenome não pode ser vazio!',
+          'Sobrenome não pode ter menos que 3 caracteres!',
+        ],
+      };
+
+      const invalidPersonName = new PersonName(invalidProps);
+      const result = invalidPersonName.validate();
+
+      expect(result).toStrictEqual(expectedResult);
     });
   });
 });
