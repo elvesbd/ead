@@ -59,7 +59,9 @@ describe('Class - Notification', () => {
         notifications: [],
       };
 
-      expect(notification.getResult()).toStrictEqual(expectedResult);
+      expect(notification.getNotificationsOutput()).toStrictEqual(
+        expectedResult
+      );
     });
 
     it('should return failure when has notifications', () => {
@@ -71,7 +73,9 @@ describe('Class - Notification', () => {
         notifications: [message],
       };
 
-      expect(notification.getResult()).toStrictEqual(expectedResult);
+      expect(notification.getNotificationsOutput()).toStrictEqual(
+        expectedResult
+      );
     });
   });
 });
