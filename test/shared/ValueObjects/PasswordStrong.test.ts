@@ -2,7 +2,7 @@ import { notificationMessages } from '@/constants/NotificationMessages';
 import PasswordStrong from '@/shared/ValueObjects/PasswordStrong';
 import { ValidatorOutput } from '@/utils/Validator/types/Validator';
 
-describe('Value Object - Strong Password', () => {
+describe('Value Object - Password Strong', () => {
   let passwordStrong: PasswordStrong;
 
   const value = '@L_2456l';
