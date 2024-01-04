@@ -6,13 +6,11 @@
 ![GitHub issues](https://img.shields.io/github/issues-raw/elvesbd/ead?style=for-the-badge)
 ![GitHub pull requests](https://img.shields.io/github/issues-pr/elvesbd/ead?style=for-the-badge)
 
-![Coverage]()
+![Coverage](https://i.imgur.com/ccKUKPR.png)
 
 # Modelo de Domínio Evolutivo em TypeScript
 
-Bem-vindo ao repositório de Modelagem de Domínio Evolutivo em TypeScript! Este projeto é dedicado a demonstrar o processo iterativo e evolutivo de modelagem de domínio, começando com um modelo anêmico e progredindo para a construção de um modelo rico em detalhes.
-
-O repositório está organizado em branches que representam diferentes estágios do desenvolvimento, cada um marcando uma evolução significativa no modelo de domínio.
+Bem-vindo ao repositório de Modelagem de Domínio Evolutivo em TypeScript! Este projeto é dedicado a demonstrar o processo iterativo e evolutivo de modelagem de domínio.
 
 ## Arquitetura Avançada
 
