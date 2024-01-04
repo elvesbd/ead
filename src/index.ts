@@ -1,4 +1,4 @@
-/* import PersonName from './shared/value-objects/PersonName';
+import PersonName from './shared/value-objects/PersonName';
 
 export function handler() {
   const input = {
@@ -6,14 +6,13 @@ export function handler() {
     lastName: 'Brito',
   };
 
-  const { success, notifications } = PersonName.validate(input);
+  const personName = new PersonName(input);
+  const { success, notifications } = personName.validate();
   if (!success) {
+    console.log('notifications', notifications);
     return notifications;
   }
-
-  const personName = new PersonName(input);
-  console.log('Validação passou:', personName);
+  console.log('personName', personName);
 }
 
 handler();
- */

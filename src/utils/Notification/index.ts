@@ -3,10 +3,6 @@ import { Output } from './types/output';
 export default class Notification {
   private notifications: string[] = [];
 
-  constructor() {
-    this.notifications = [];
-  }
-
   public addNotification(message: string): void {
     this.notifications.push(message);
   }
