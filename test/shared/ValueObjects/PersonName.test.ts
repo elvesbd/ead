@@ -1,5 +1,5 @@
-import PersonName from '@/shared/value-objects/PersonName';
-import { PersonNameInput } from '@/shared/value-objects/PersonName/types/PersonNameInput';
+import PersonName from '@/shared/ValueObjects/PersonName';
+import { PersonNameInput } from '@/shared/ValueObjects/PersonName/types/PersonNameInput';
 
 describe('Value Object - PersonName', () => {
   let personName: PersonName;

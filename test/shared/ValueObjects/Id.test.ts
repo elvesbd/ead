@@ -1,4 +1,4 @@
-import Id from '@/shared/value-objects/Id';
+import Id from '@/shared/ValueObjects/Id';
 
 describe('Value Object - Id', () => {
   beforeEach(() => {
