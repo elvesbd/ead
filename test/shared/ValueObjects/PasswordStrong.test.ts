@@ -1,26 +1,26 @@
 import { notificationMessages } from '@/constants/NotificationMessages';
-import StrongPassword from '@/shared/ValueObjects/StrongPassword';
+import PasswordStrong from '@/shared/ValueObjects/PasswordStrong';
 import { ValidatorOutput } from '@/utils/Validator/types/Validator';
 
-describe('Value Object - Strong Password', () => {
-  let strongPassword: StrongPassword;
+describe('Value Object - Password Strong', () => {
+  let passwordStrong: PasswordStrong;
 
   const value = '@L_2456l';
 
   beforeEach(() => {
     jest.clearAllMocks();
-    strongPassword = new StrongPassword(value);
+    passwordStrong = new PasswordStrong(value);
   });
 
   describe('Creation', () => {
-    it('should create a strong password instance with success', () => {
-      expect(strongPassword).toBeInstanceOf(StrongPassword);
+    it('should create a password strong instance with success', () => {
+      expect(passwordStrong).toBeInstanceOf(PasswordStrong);
     });
   });
 
   describe('Getters', () => {
-    it('should get a strong password value', () => {
-      expect(strongPassword.getValue).toBe(value);
+    it('should get a password strong value', () => {
+      expect(passwordStrong.getValue).toBe(value);
     });
   });
 
@@ -34,8 +34,8 @@ describe('Value Object - Strong Password', () => {
         notifications: [message],
       };
 
-      const strongPassword = new StrongPassword(invalidValue);
-      const result = strongPassword.validate();
+      const passwordStrong = new PasswordStrong(invalidValue);
+      const result = passwordStrong.validate();
 
       expect(result).toStrictEqual(expectedResult);
     });
@@ -49,8 +49,8 @@ describe('Value Object - Strong Password', () => {
         notifications: [message],
       };
 
-      const strongPassword = new StrongPassword(invalidValue);
-      const result = strongPassword.validate();
+      const passwordStrong = new PasswordStrong(invalidValue);
+      const result = passwordStrong.validate();
 
       expect(result).toStrictEqual(expectedResult);
     });
@@ -64,8 +64,8 @@ describe('Value Object - Strong Password', () => {
         notifications: [message],
       };
 
-      const strongPassword = new StrongPassword(invalidValue);
-      const result = strongPassword.validate();
+      const passwordStrong = new PasswordStrong(invalidValue);
+      const result = passwordStrong.validate();
 
       expect(result).toStrictEqual(expectedResult);
     });
@@ -79,8 +79,8 @@ describe('Value Object - Strong Password', () => {
         notifications: [message],
       };
 
-      const strongPassword = new StrongPassword(invalidValue);
-      const result = strongPassword.validate();
+      const passwordStrong = new PasswordStrong(invalidValue);
+      const result = passwordStrong.validate();
 
       expect(result).toStrictEqual(expectedResult);
     });
@@ -94,8 +94,8 @@ describe('Value Object - Strong Password', () => {
         notifications: [message],
       };
 
-      const strongPassword = new StrongPassword(invalidValue);
-      const result = strongPassword.validate();
+      const passwordStrong = new PasswordStrong(invalidValue);
+      const result = passwordStrong.validate();
 
       expect(result).toStrictEqual(expectedResult);
     });
@@ -109,8 +109,8 @@ describe('Value Object - Strong Password', () => {
         notifications: [message],
       };
 
-      const strongPassword = new StrongPassword(invalidValue);
-      const result = strongPassword.validate();
+      const passwordStrong = new PasswordStrong(invalidValue);
+      const result = passwordStrong.validate();
 
       expect(result).toStrictEqual(expectedResult);
     });
@@ -121,7 +121,7 @@ describe('Value Object - Strong Password', () => {
         notifications: [],
       };
 
-      const result = strongPassword.validate();
+      const result = passwordStrong.validate();
 
       expect(result).toStrictEqual(expectedResult);
     });

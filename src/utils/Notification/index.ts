@@ -5,6 +5,7 @@ export default class Notification {
 
   public addNotification(message: string): void {
     this.notifications.push(message);
+    console.log('notifications', this.notifications);
   }
 
   public clearNotifications(): void {

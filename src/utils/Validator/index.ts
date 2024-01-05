@@ -97,11 +97,11 @@ export default class Validator extends Notification {
     return this;
   }
 
-  public isEmail(value: unknown, errorMessage?: string) {
-    const regex = /^[a-z0-9.]+@[a-z0-9]+\.[a-z]+(\.[a-z]+)?$/i;
+  public isEmail(value: unknown, key: string, errorMessage?: string) {
+    const regex = /^[a-z0-9._-]+@[a-z0-9]+\.[a-z]+(\.[a-z]+)?$/i;
     const valid = typeof value === 'string' && regex.test(value);
     if (!valid) {
-      const message = errorMessage ?? notificationMessages.email();
+      const message = errorMessage ?? notificationMessages.email(key);
       this.addNotification(message);
     }
 
