@@ -6,12 +6,13 @@ export default class PersonName {
   private readonly firstName: string;
   private readonly lastName: string;
 
-  constructor(props: PersonNameProps) {
+  constructor(validation: Validator, props: PersonNameProps) {
     this.firstName = props.firstName;
     this.lastName = props.lastName;
+    this.validate(validation);
   }
 
-  validate(validation: Validator): ValidatorOutput {
+  validate(validation: Validator): void {
     validation
       .isRequired(this.firstName, 'Nome')
       .isNotEmpty(this.firstName, 'Nome')
@@ -28,7 +29,7 @@ export default class PersonName {
       .isString(this.lastName, 'Sobrenome')
       .matchesRegex(this.lastName, /^[a-zA-ZÁ-ú'\-\s]*$/, 'Sobrenome');
 
-    return validation.getOutput();
+    //return validation.getNotificationsOutput();
   }
 
   get getFirstName() {

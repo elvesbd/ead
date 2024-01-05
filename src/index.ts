@@ -1,19 +1,24 @@
-/* import PersonName from './shared/value-objects/PersonName';
+import User from './model/User';
 
 export function handler() {
   const input = {
     firstName: 'Elves',
-    lastName: 'Brito',
+    lastName: '',
+    email: 'elveas@mail.com',
+    password: '$2a$08$7iOUCtsgfKJhku7Iwm1dyeEoNzICTzQrg.UPLUShU.A7R4ylXkLc2',
   };
 
-  const personName = new PersonName(input);
-  const { success, notifications } = personName.validate();
-  if (!success) {
-    console.log('notifications', notifications);
-    return notifications;
+  //const { validation } = new User(input);
+  const user = new User(input);
+  console.log('user', user);
+  //const { success, notifications } = user.validate();
+  // console.log(validation.getNotifications());
+  if (user.hasNotifications()) {
+    console.log('IF');
+    console.log('notifications', user.getNotifications());
+    return user.getNotifications();
   }
-  console.log('personName', personName);
+  console.log('user', user.getUser);
 }
 
 handler();
- */

@@ -4,13 +4,14 @@ import { ValidatorOutput } from '@/utils/Validator/types/Validator';
 export default class Email {
   private readonly value: string;
 
-  constructor(value: string) {
+  constructor(validation: Validator, value: string) {
     this.value = value.trim();
+    this.validate(validation);
   }
 
-  validate(validation: Validator): ValidatorOutput {
+  validate(validation: Validator): void {
     validation.isEmail(this.value, 'Email');
-    return validation.getOutput();
+    //return validation.getNotificationsOutput();
   }
 
   get getValue(): string {
