@@ -1,15 +1,18 @@
 import { notificationMessages } from '@/constants/NotificationMessages';
 import Email from '@/shared/ValueObjects/Email';
+import Validator from '@/utils/Validator';
 import { ValidatorOutput } from '@/utils/Validator/types/Validator';
 
 describe('Value Object - Email', () => {
   let email: Email;
+  let validation: Validator;
 
   const value = 'elves@mail.com';
 
   beforeEach(() => {
     jest.clearAllMocks();
     email = new Email(value);
+    validation = new Validator();
   });
 
   describe('Creation', () => {
@@ -39,7 +42,7 @@ describe('Value Object - Email', () => {
         notifications: [],
       };
 
-      const result = email.validate();
+      const result = email.validate(validation);
 
       expect(result).toStrictEqual(expectedResult);
     });
@@ -47,14 +50,14 @@ describe('Value Object - Email', () => {
     it('should return notifications for an without user value', () => {
       const invalidValue = '@mail.com';
 
-      const message = notificationMessages.email();
+      const message = notificationMessages.email('Email');
       const expectedResult: ValidatorOutput = {
         success: false,
         notifications: [message],
       };
 
       const email = new Email(invalidValue);
-      const result = email.validate();
+      const result = email.validate(validation);
 
       expect(result).toStrictEqual(expectedResult);
     });
@@ -62,14 +65,14 @@ describe('Value Object - Email', () => {
     it('should return notifications for an without domain value', () => {
       const invalidValue = 'elves@';
 
-      const message = notificationMessages.email();
+      const message = notificationMessages.email('Email');
       const expectedResult: ValidatorOutput = {
         success: false,
         notifications: [message],
       };
 
       const email = new Email(invalidValue);
-      const result = email.validate();
+      const result = email.validate(validation);
 
       expect(result).toStrictEqual(expectedResult);
     });
@@ -77,14 +80,14 @@ describe('Value Object - Email', () => {
     it('should return notifications for an empty value', () => {
       const invalidValue = '';
 
-      const message = notificationMessages.email();
+      const message = notificationMessages.email('Email');
       const expectedResult: ValidatorOutput = {
         success: false,
         notifications: [message],
       };
 
       const email = new Email(invalidValue);
-      const result = email.validate();
+      const result = email.validate(validation);
 
       expect(result).toStrictEqual(expectedResult);
     });

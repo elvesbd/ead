@@ -1,8 +1,10 @@
+import Validator from '@/utils/Validator';
 import PersonName from '@/shared/ValueObjects/PersonName';
 import { PersonNameProps } from '@/shared/ValueObjects/PersonName/types/PersonNameProps';
 
 describe('Value Object - PersonName', () => {
   let personName: PersonName;
+  let validation: Validator;
 
   const props: PersonNameProps = {
     firstName: 'Elves',
@@ -12,6 +14,7 @@ describe('Value Object - PersonName', () => {
   beforeEach(() => {
     jest.clearAllMocks();
     personName = new PersonName(props);
+    validation = new Validator();
   });
 
   describe('Creation', () => {
@@ -41,7 +44,7 @@ describe('Value Object - PersonName', () => {
         notifications: [],
       };
 
-      const result = personName.validate();
+      const result = personName.validate(validation);
 
       expect(result).toStrictEqual(expectedResult);
     });
@@ -61,7 +64,7 @@ describe('Value Object - PersonName', () => {
       };
 
       const invalidPersonName = new PersonName(invalidProps);
-      const result = invalidPersonName.validate();
+      const result = invalidPersonName.validate(validation);
 
       expect(result).toStrictEqual(expectedResult);
     });
@@ -81,7 +84,7 @@ describe('Value Object - PersonName', () => {
       };
 
       const invalidPersonName = new PersonName(invalidProps);
-      const result = invalidPersonName.validate();
+      const result = invalidPersonName.validate(validation);
 
       expect(result).toStrictEqual(expectedResult);
     });

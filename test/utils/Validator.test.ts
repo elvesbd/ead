@@ -556,9 +556,9 @@ describe('Class - Validator', () => {
 
   describe('isEmail()', () => {
     it('should returns email notification for test not valid regex', () => {
-      validator.isEmail('elves@');
+      validator.isEmail('elves@', 'Email');
 
-      const message = notificationMessages.email();
+      const message = notificationMessages.email('Email');
       const expectedResult: ValidatorOutput = {
         success: false,
         notifications: [message],
@@ -567,19 +567,19 @@ describe('Class - Validator', () => {
       expect(validator.getOutput()).toStrictEqual(expectedResult);
     });
 
-    it('should return invalid email notification with custom  notification message', () => {
-      validator.isEmail('@mail.com', 'Email deve ser válido');
+    it('should return invalid email notification with custom notification message', () => {
+      validator.isEmail('@mail.com', 'Email', 'deve ser um e-mail válido');
 
       const expectedResult: ValidatorOutput = {
         success: false,
-        notifications: ['Email deve ser válido'],
+        notifications: ['deve ser um e-mail válido'],
       };
 
       expect(validator.getOutput()).toStrictEqual(expectedResult);
     });
 
     it('should returns empty notification for valid regex value', () => {
-      validator.isEmail('elves@mail.com');
+      validator.isEmail('elves@mail.com', 'Email');
 
       const expectedResult: ValidatorOutput = {
         success: true,

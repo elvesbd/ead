@@ -1,15 +1,18 @@
+import Validator from '@/utils/Validator';
 import { notificationMessages } from '@/constants/NotificationMessages';
 import PasswordHash from '@/shared/ValueObjects/PasswordHash';
 import { ValidatorOutput } from '@/utils/Validator/types/Validator';
 
 describe('Value Object - Password Hash', () => {
   let passwordHash: PasswordHash;
+  let validation: Validator;
 
   const value = '$2a$08$7iOUCtsgfKJhku7Iwm1dyeEoNzICTzQrg.UPLUShU.A7R4ylXkLc2';
 
   beforeEach(() => {
     jest.clearAllMocks();
     passwordHash = new PasswordHash(value);
+    validation = new Validator();
   });
 
   describe('Creation', () => {
@@ -35,7 +38,7 @@ describe('Value Object - Password Hash', () => {
       };
 
       const passwordHash = new PasswordHash(invalidValue);
-      const result = passwordHash.validate();
+      const result = passwordHash.validate(validation);
 
       expect(result).toStrictEqual(expectedResult);
     });
@@ -46,7 +49,7 @@ describe('Value Object - Password Hash', () => {
         notifications: [],
       };
 
-      const result = passwordHash.validate();
+      const result = passwordHash.validate(validation);
 
       expect(result).toStrictEqual(expectedResult);
     });
