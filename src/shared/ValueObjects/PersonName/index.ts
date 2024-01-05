@@ -11,8 +11,7 @@ export default class PersonName {
     this.lastName = props.lastName;
   }
 
-  validate(): ValidatorOutput {
-    const validation = new Validator();
+  validate(validation: Validator): ValidatorOutput {
     validation
       .isRequired(this.firstName, 'Nome')
       .isNotEmpty(this.firstName, 'Nome')

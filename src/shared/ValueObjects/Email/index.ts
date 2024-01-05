@@ -6,13 +6,10 @@ export default class Email {
 
   constructor(value: string) {
     this.value = value.trim();
-    this.validate();
   }
 
-  validate(): ValidatorOutput {
-    const validation = new Validator();
-    validation.isEmail(this.value);
-
+  validate(validation: Validator): ValidatorOutput {
+    validation.isEmail(this.value, 'Email');
     return validation.getOutput();
   }
 

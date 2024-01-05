@@ -6,11 +6,9 @@ export default class PasswordHash {
 
   constructor(value: string) {
     this.value = value;
-    this.validate();
   }
 
-  validate(): ValidatorOutput {
-    const validation = new Validator();
+  validate(validation: Validator): ValidatorOutput {
     validation.matchesRegex(
       this.value,
       /^\$2[ayb]\$[0-9]{2}\$[A-Za-z0-9\.\/]{53}$/,
