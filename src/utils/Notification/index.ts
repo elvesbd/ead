@@ -1,28 +1,25 @@
-import { NotificationOutput, Notifications } from './types/Notification';
-
 export default class Notification {
-  private notifications: string[] = [];
+  private _key: string;
+  private _message: string;
 
-  public addNotification(message: string): void {
-    this.notifications.push(message);
+  constructor(key: string, message: string) {
+    this._key = key;
+    this._message = message;
   }
 
-  public clearNotifications(): void {
-    this.notifications = [];
+  get key(): string {
+    return this._key;
   }
 
-  public hasNotifications(): boolean {
-    return this.notifications.length > 0;
+  set key(value: string) {
+    this._key = value;
   }
 
-  public getNotifications(): Notifications {
-    return this.notifications;
+  get message(): string {
+    return this._message;
   }
 
-  public getNotificationsOutput(): NotificationOutput {
-    return {
-      success: !this.hasNotifications(),
-      notifications: this.notifications,
-    };
+  set message(value: string) {
+    this._message = value;
   }
 }

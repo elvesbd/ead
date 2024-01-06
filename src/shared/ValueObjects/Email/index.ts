@@ -1,17 +1,16 @@
 import Validator from '@/utils/Validator';
-import { ValidatorOutput } from '@/utils/Validator/types/Validator';
+import { ValueObject } from '../ValueObject';
 
-export default class Email {
+export default class Email extends ValueObject {
   private readonly value: string;
 
-  constructor(validation: Validator, value: string) {
+  constructor(value: string) {
+    super();
     this.value = value.trim();
-    this.validate(validation);
-  }
 
-  validate(validation: Validator): void {
-    validation.isEmail(this.value, 'Email');
-    //return validation.getNotificationsOutput();
+    const validation = new Validator().isEmail(this.value, 'Email');
+
+    this.addNotifications(validation.notifications);
   }
 
   get getValue(): string {

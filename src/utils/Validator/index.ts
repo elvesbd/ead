@@ -1,15 +1,18 @@
+import { Notifiable } from '@/shared/Notifiable';
 import Notification from '../Notification';
-import { ValidatorOutput } from './types/Validator';
 import { notificationMessages } from '@/constants/NotificationMessages';
 
-export default class Validator {
-  constructor(private readonly notification: Notification) {}
+export default class Validator extends Notifiable<Notification> {
+  public addNotification(key: string, message: string): void {
+    const notificationInstance = new Notification(key, message);
+    this.addSingleNotification(notificationInstance);
+  }
 
   public isRequired(value: unknown, key: string, errorMessage?: string) {
     const isValidValue = value !== null && value !== undefined;
     if (!isValidValue) {
       const message = errorMessage ?? notificationMessages.required(key);
-      this.notification.addNotification(message);
+      this.addNotification(key, message);
     }
 
     return this;
@@ -23,7 +26,7 @@ export default class Validator {
 
     if (empty) {
       const message = errorMessage ?? notificationMessages.empty(key);
-      this.notification.addNotification(message);
+      this.addNotification(key, message);
     }
 
     return this;
@@ -42,7 +45,7 @@ export default class Validator {
     if (isValidValue) {
       const message =
         errorMessage ?? notificationMessages.minLength(length, key);
-      this.notification.addNotification(message);
+      this.addNotification(key, message);
     }
 
     return this;
@@ -61,7 +64,7 @@ export default class Validator {
     if (isValidValue) {
       const message =
         errorMessage ?? notificationMessages.maxLength(length, key);
-      this.notification.addNotification(message);
+      this.addNotification(key, message);
     }
     return this;
   }
@@ -70,7 +73,7 @@ export default class Validator {
     const isValidValue = typeof value === 'number' && !isNaN(value);
     if (!isValidValue) {
       const message = errorMessage ?? notificationMessages.number(key);
-      this.notification.addNotification(message);
+      this.addNotification(key, message);
     }
     return this;
   }
@@ -79,7 +82,7 @@ export default class Validator {
     const isValidValue = typeof value === 'string';
     if (!isValidValue) {
       const message = errorMessage ?? notificationMessages.string(key);
-      this.notification.addNotification(message);
+      this.addNotification(key, message);
     }
 
     return this;
@@ -94,7 +97,7 @@ export default class Validator {
     const isValidValue = typeof value === 'string' && regex.test(value);
     if (!isValidValue) {
       const message = errorMessage ?? notificationMessages.regex(key);
-      this.notification.addNotification(message);
+      this.addNotification(key, message);
     }
     return this;
   }
@@ -104,7 +107,7 @@ export default class Validator {
     const valid = typeof value === 'string' && regex.test(value);
     if (!valid) {
       const message = errorMessage ?? notificationMessages.email(key);
-      this.notification.addNotification(message);
+      this.addNotification(key, message);
     }
 
     return this;

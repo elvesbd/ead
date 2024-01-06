@@ -3,39 +3,25 @@ import Email from '@/shared/ValueObjects/Email';
 import Entity from '@/shared/ValueObjects/Entity';
 import PersonName from '@/shared/ValueObjects/PersonName';
 import PasswordHash from '@/shared/ValueObjects/PasswordHash';
-import Validator from '@/utils/Validator';
-import { ValidatorOutput } from '@/utils/Validator/types/Validator';
 import Notification from '@/utils/Notification';
 
 export default class User extends Entity<User, UserProps> {
   private readonly email: Email;
   private readonly name: PersonName;
   private readonly password: PasswordHash;
-  private validation: Validator;
-  private notifications: Notification;
 
   constructor(props: UserProps) {
     super(props);
-    this.notifications = new Notification();
-    this.validation = new Validator(this.notifications);
 
-    this.name = new PersonName(this.validation, {
+    this.name = new PersonName({
       firstName: props.firstName,
       lastName: props.lastName,
     });
-    this.email = new Email(this.validation, props.email);
-    this.password = new PasswordHash(this.validation, props.password);
+    this.email = new Email(props.email);
+    this.password = new PasswordHash(props.password);
   }
 
-  hasNotifications(): boolean {
-    return this.notifications.hasNotifications();
-  }
-
-  getNotifications(): string[] {
-    return this.notifications.getNotifications();
-  }
-
-  get getUser(): UserProps {
+  get getValue(): UserProps {
     return {
       id: this.id.value,
       firstName: this.name.getFirstName,
@@ -45,12 +31,17 @@ export default class User extends Entity<User, UserProps> {
     };
   }
 
-  validate(): any {
-    //const validation = new Validator();
-    /* this.name.validate(this.validation);
-    this.email.validate(this.validation);
-    this.password.validate(this.validation);
+  isValid(): boolean {
+    return (
+      this.name.isValid() && this.email.isValid() && this.password.isValid()
+    );
+  }
 
-    return this.validation.getOutput(); */
+  getNotifications(): Notification[] {
+    return [
+      ...this.name.getNotifications(),
+      ...this.email.getNotifications(),
+      ...this.password.getNotifications(),
+    ];
   }
 }

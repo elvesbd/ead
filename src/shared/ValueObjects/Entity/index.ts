@@ -1,18 +1,26 @@
 import Id from '../Id';
+import Notification from '@/utils/Notification';
+import { Notifiable } from '@/shared/Notifiable';
 import { EntityProps } from './types/EntityProps';
 
-export default abstract class Entity<T, Props extends EntityProps> {
-  readonly id: Id;
+export default abstract class Entity<
+  T extends Entity<T, P>,
+  P extends EntityProps
+> extends Notifiable<Notification> {
+  protected readonly id: Id;
 
-  constructor(input: Props) {
-    this.id = new Id(input.id);
+  constructor(props: P) {
+    super();
+    this.id = new Id(props.id);
   }
 
-  isEqual(entity: Entity<T, Props>): boolean {
-    return this.id.isEqual(entity.id);
+  abstract get getValue(): P;
+
+  isValid(): boolean {
+    return this.isValidData;
   }
 
-  isDifferent(entity: Entity<T, Props>): boolean {
-    return this.id.isDifferent(entity.id);
+  getNotifications(): Notification[] {
+    return [...this.notifications];
   }
 }

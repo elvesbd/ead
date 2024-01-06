@@ -1,22 +1,20 @@
 import Validator from '@/utils/Validator';
 import { ValidatorOutput } from '@/utils/Validator/types/Validator';
+import { ValueObject } from '../ValueObject';
 
-export default class PasswordHash {
+export default class PasswordHash extends ValueObject {
   private readonly value: string;
 
-  constructor(validation: Validator, value: string) {
+  constructor(value: string) {
+    super();
     this.value = value;
-    this.validate(validation);
-  }
-
-  validate(validation: Validator): void {
-    validation.matchesRegex(
+    const validation = new Validator().matchesRegex(
       this.value,
       /^\$2[ayb]\$[0-9]{2}\$[A-Za-z0-9\.\/]{53}$/,
       'Senha Hash'
     );
 
-    // return validation.getNotificationsOutput();
+    this.addNotifications(validation.notifications);
   }
 
   get getValue(): string {
