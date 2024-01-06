@@ -1,26 +1,26 @@
 import Validator from '@/utils/Validator';
-import { ValidatorOutput } from '@/utils/Validator/types/Validator';
+import { ValueObject } from '../ValueObject';
 
-export default class PasswordStrong {
-  private readonly value: string;
+export default class PasswordStrong extends ValueObject {
+  private _value: string;
 
-  constructor(value: string) {
-    this.value = value;
-    this.validate();
-  }
+  public constructor(value: string) {
+    super();
+    this._value = value;
 
-  validate(): ValidatorOutput {
-    const validation = new Validator();
-    validation.matchesRegex(
-      this.value,
+    const validator = new Validator().matchesRegex(
+      this._value,
       /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/,
       'Senha'
     );
-
-    return validation.getOutput();
+    this.addNotifications(validator.notifications);
   }
 
   get getValue(): string {
-    return this.value;
+    return this._value;
+  }
+
+  public getNotifications(): Record<string, string[]> {
+    return this.groupedNotifications;
   }
 }

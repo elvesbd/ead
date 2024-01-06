@@ -3,45 +3,48 @@ import Email from '@/shared/ValueObjects/Email';
 import Entity from '@/shared/ValueObjects/Entity';
 import PersonName from '@/shared/ValueObjects/PersonName';
 import PasswordHash from '@/shared/ValueObjects/PasswordHash';
-import Notification from '@/utils/Notification';
 
 export default class User extends Entity<User, UserProps> {
-  private readonly email: Email;
-  private readonly name: PersonName;
-  private readonly password: PasswordHash;
+  private _email: Email;
+  private _name: PersonName;
+  private _password: PasswordHash;
 
-  constructor(props: UserProps) {
+  public constructor(props: UserProps) {
     super(props);
 
-    this.name = new PersonName({
+    this._name = new PersonName({
       firstName: props.firstName,
       lastName: props.lastName,
     });
-    this.email = new Email(props.email);
-    this.password = new PasswordHash(props.password);
+    this._email = new Email(props.email);
+    this._password = new PasswordHash(props.password);
   }
 
-  get getValue(): UserProps {
+  public getUserProps(): UserProps {
     return {
-      id: this.id.value,
-      firstName: this.name.getFirstName,
-      lastName: this.name.getLastName,
-      email: this.email.getValue,
-      password: this.password.getValue,
+      id: this._id.getValue,
+      firstName: this._name.getFirstName,
+      lastName: this._name.getLastName,
+      email: this._email.getValue,
+      password: this._password.getValue,
     };
   }
 
-  isValid(): boolean {
+  public isValid(): boolean {
     return (
-      this.name.isValid() && this.email.isValid() && this.password.isValid()
+      this._id.isValid() &&
+      this._name.isValid() &&
+      this._email.isValid() &&
+      this._password.isValid()
     );
   }
 
-  getNotifications(): Notification[] {
-    return [
-      ...this.name.getNotifications(),
-      ...this.email.getNotifications(),
-      ...this.password.getNotifications(),
-    ];
+  public getNotifications(): Record<string, string[]> {
+    return {
+      ...this._id.getNotifications(),
+      ...this._name.getNotifications(),
+      ...this._email.getNotifications(),
+      ...this._password.getNotifications(),
+    };
   }
 }

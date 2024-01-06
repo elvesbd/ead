@@ -2,27 +2,30 @@ import Validator from '@/utils/Validator';
 import { ValueObject } from '../ValueObject';
 
 export default class Email extends ValueObject {
-  private readonly value: string;
+  private _value: string;
 
-  constructor(value: string) {
+  public constructor(value: string) {
     super();
-    this.value = value.trim();
+    this._value = value.trim();
 
-    const validation = new Validator().isEmail(this.value, 'Email');
-
-    this.addNotifications(validation.notifications);
+    const validator = new Validator().isEmail(this._value, 'Email');
+    this.addNotifications(validator.notifications);
   }
 
   get getValue(): string {
-    return this.value;
+    return this._value;
   }
 
-  get getEmailUser(): string {
-    return this.value.split('@')[0];
+  get getUser(): string {
+    return this._value.split('@')[0];
   }
 
-  get getEmailDomain(): string {
-    const domain = this.value.split('@')[1];
+  get getDomain(): string {
+    const domain = this._value.split('@')[1];
     return domain.split('.')[0];
+  }
+
+  public getNotifications(): Record<string, string[]> {
+    return this.groupedNotifications;
   }
 }

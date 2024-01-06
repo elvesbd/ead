@@ -3,42 +3,45 @@ import { ValueObject } from '../ValueObject';
 import { PersonNameProps } from './types/PersonNameProps';
 
 export default class PersonName extends ValueObject {
-  private readonly firstName: string;
-  private readonly lastName: string;
+  private _firstName: string;
+  private _lastName: string;
 
   constructor(props: PersonNameProps) {
     super();
-    this.firstName = props.firstName;
-    this.lastName = props.lastName;
+    this._firstName = props.firstName;
+    this._lastName = props.lastName;
 
-    const validation = new Validator()
-      .isRequired(this.firstName, 'Nome')
-      .isNotEmpty(this.firstName, 'Nome')
-      .isLongerThan(this.firstName, 'Nome', 80)
-      .isShorterThan(this.firstName, 'Nome', 3)
-      .isString(this.firstName, 'Nome')
-      .matchesRegex(this.firstName, /^[a-zA-ZÁ-ú'\-\s]*$/, 'Nome')
-      .isRequired(this.lastName, 'Sobrenome')
-      .isNotEmpty(this.lastName, 'Sobrenome')
-      .isLongerThan(this.lastName, 'Sobrenome', 80)
-      .isShorterThan(this.lastName, 'Sobrenome', 3)
-      .isString(this.lastName, 'Sobrenome')
-      .matchesRegex(this.lastName, /^[a-zA-ZÁ-ú'\-\s]*$/, 'Sobrenome');
-
-    this.addNotifications(validation.notifications);
+    const validator = new Validator()
+      .isRequired(this._firstName, 'Nome')
+      .isNotEmpty(this._firstName, 'Nome')
+      .isLongerThan(this._firstName, 'Nome', 80)
+      .isShorterThan(this._firstName, 'Nome', 3)
+      .isString(this._firstName, 'Nome')
+      .matchesRegex(this._firstName, /^[a-zA-ZÁ-ú'\-\s]*$/, 'Nome')
+      .isRequired(this._lastName, 'Sobrenome')
+      .isNotEmpty(this._lastName, 'Sobrenome')
+      .isLongerThan(this._lastName, 'Sobrenome', 80)
+      .isShorterThan(this._lastName, 'Sobrenome', 3)
+      .isString(this._lastName, 'Sobrenome')
+      .matchesRegex(this._lastName, /^[a-zA-ZÁ-ú'\-\s]*$/, 'Sobrenome');
+    this.addNotifications(validator.notifications);
   }
 
   get getFirstName() {
-    return this.firstName;
+    return this._firstName;
   }
 
   get getLastName() {
-    return this.lastName;
+    return this._lastName;
   }
 
   get getInitials() {
-    const firstLetter = this.firstName[0];
-    const secondLetter = this.lastName[0];
+    const firstLetter = this._firstName[0];
+    const secondLetter = this._lastName[0];
     return `${firstLetter}${secondLetter}`;
+  }
+
+  public getNotifications(): Record<string, string[]> {
+    return this.groupedNotifications;
   }
 }

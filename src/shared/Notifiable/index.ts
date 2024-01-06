@@ -1,7 +1,7 @@
 import Notification from '@/utils/Notification';
 
 export abstract class Notifiable<T extends Notification> {
-  private readonly _notifications: T[];
+  private _notifications: T[];
 
   constructor() {
     this._notifications = [];
@@ -11,29 +11,31 @@ export abstract class Notifiable<T extends Notification> {
     return this._notifications;
   }
 
-  get isValidData(): boolean {
+  public isValid(): boolean {
     return this._notifications.length === 0;
   }
 
-  /* addNotification(
-    key: string,
-    message: string,
-    ctor: new (key: string, message: string) => T
-  ): void {
-    const notificationInstance = this.getNotificationInstance(
-      key,
-      message,
-      ctor
-    );
-    this._notifications.push(notificationInstance);
-  } */
+  protected get groupedNotifications(): Record<string, string[]> {
+    const groupedNotifications: Record<string, string[]> = {};
 
-  // Na classe Notifiable
-  addSingleNotification(notification: T): void {
+    for (const notification of this.notifications) {
+      const { key, message } = notification;
+
+      if (!groupedNotifications[key]) {
+        groupedNotifications[key] = [];
+      }
+
+      groupedNotifications[key].push(message);
+    }
+
+    return groupedNotifications;
+  }
+
+  protected addNotification(notification: T): void {
     this._notifications.push(notification);
   }
 
-  addNotifications(notifications: ReadonlyArray<T>): void {
+  protected addNotifications(notifications: ReadonlyArray<T>): void {
     this._notifications.push(...notifications);
   }
 

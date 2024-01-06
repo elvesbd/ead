@@ -1,19 +1,31 @@
-import { v4 as uuid, validate } from 'uuid';
+import { v4 as uuid } from 'uuid';
+import Validator from '@/utils/Validator';
+import { ValueObject } from '../ValueObject';
 
-export default class Id {
-  readonly value: string;
+export default class Id extends ValueObject {
+  private _value: string;
 
-  constructor(value?: string) {
-    this.value = value ?? uuid();
+  public constructor(value?: string) {
+    super();
+    this._value = value ?? uuid();
 
-    if (!validate(this.value)) throw new Error('Invalid Id');
+    const validator = new Validator().isUUID(this._value, 'Id');
+    this.addNotifications(validator.notifications);
   }
 
-  isEqual(id: Id) {
-    return this.value === id.value;
+  get getValue() {
+    return this._value;
   }
 
-  isDifferent(id: Id) {
-    return this.value !== id.value;
+  public isEqual(id: Id) {
+    return this._value === id._value;
+  }
+
+  public isDifferent(id: Id) {
+    return this._value !== id._value;
+  }
+
+  public getNotifications(): Record<string, string[]> {
+    return this.groupedNotifications;
   }
 }
