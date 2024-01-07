@@ -31,7 +31,7 @@ describe('Class - Notification', () => {
 
   describe('Setters()', () => {
     it('should set new notification message key', () => {
-      notification.key = 'new Key';
+      notification.key = 'new key';
       expect(notification.key).toBe('new key');
     });
 

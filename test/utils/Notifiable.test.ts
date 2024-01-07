@@ -31,7 +31,6 @@ describe('Class - Notifiable', () => {
       notifiable.addNotificationSpy(new Notification('key1', 'message1'));
 
       const result = notifiable.isValidSpy();
-      console.log(notifiable.notifications);
 
       expect(result).toBeFalsy();
     });

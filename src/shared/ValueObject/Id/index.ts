@@ -13,15 +13,15 @@ export default class Id extends ValueObject {
     this.addNotifications(validator.notifications);
   }
 
-  get getValue() {
+  get getValue(): string {
     return this._value;
   }
 
-  public isEqual(id: Id) {
+  public isEqual(id: Id): boolean {
     return this._value === id._value;
   }
 
-  public isDifferent(id: Id) {
+  public isDifferent(id: Id): boolean {
     return this._value !== id._value;
   }
 
