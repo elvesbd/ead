@@ -1,8 +1,8 @@
 import { UserProps } from './types/UserProps';
-import Email from '@/shared/ValueObjects/Email';
-import Entity from '@/shared/ValueObjects/Entity';
-import PersonName from '@/shared/ValueObjects/PersonName';
-import PasswordHash from '@/shared/ValueObjects/PasswordHash';
+import Email from '@/shared/ValueObject/Email';
+import Entity from '@/shared/ValueObject/Entity';
+import PersonName from '@/shared/ValueObject/PersonName';
+import PasswordHash from '@/shared/ValueObject/PasswordHash';
 
 export default class User extends Entity<User, UserProps> {
   private _email: Email;

@@ -1,5 +1,5 @@
-import Id from '../Id';
-import { EntityProps } from './types/EntityProps';
+import Id from '@/shared/ValueObject/Id';
+import { EntityProps } from '@/shared/ValueObject/Entity/types/EntityProps';
 
 export default abstract class Entity<
   T extends Entity<T, P>,

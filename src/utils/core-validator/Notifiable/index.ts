@@ -1,4 +1,4 @@
-import Notification from '@/utils/Notification';
+import Notification from '@/utils/core-validator/Notification';
 
 export abstract class Notifiable<T extends Notification> {
   private _notifications: T[];

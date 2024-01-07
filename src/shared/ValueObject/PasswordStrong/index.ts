@@ -1,7 +1,7 @@
-import Validator from '@/utils/Validator';
-import { ValueObject } from '../ValueObject';
+import { ValueObject } from '@/shared/ValueObject';
+import Validator from '@/utils/core-validator/Validator';
 
-export default class PasswordHash extends ValueObject {
+export default class PasswordStrong extends ValueObject {
   private _value: string;
 
   public constructor(value: string) {
@@ -10,7 +10,7 @@ export default class PasswordHash extends ValueObject {
 
     const validator = new Validator().matchesRegex(
       this._value,
-      /^\$2[ayb]\$[0-9]{2}\$[A-Za-z0-9\.\/]{53}$/,
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/,
       'Senha'
     );
     this.addNotifications(validator.notifications);

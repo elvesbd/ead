@@ -1,5 +1,5 @@
-import Validator from '@/utils/Validator';
-import { ValueObject } from '../ValueObject';
+import { ValueObject } from '@/shared/ValueObject';
+import Validator from '@/utils/core-validator/Validator';
 
 export default class Email extends ValueObject {
   private _value: string;

@@ -1,6 +1,6 @@
-import { Notifiable } from '@/shared/Notifiable';
-import Notification from '../Notification';
-import { notificationMessages } from '@/constants/NotificationMessages';
+import Notification from '@/utils/core-validator/Notification';
+import { Notifiable } from '@/utils/core-validator/Notifiable';
+import { notificationMessages } from '@/utils/core-validator/messages/NotificationMessages';
 
 export default class Validator extends Notifiable<Notification> {
   public isRequired(value: unknown, key: string, errorMessage?: string) {
