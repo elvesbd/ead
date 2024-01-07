@@ -1,18 +1,12 @@
-import Validator from '@/utils/Validator';
-import { notificationMessages } from '@/constants/NotificationMessages';
-import PasswordHash from '@/shared/ValueObjects/PasswordHash';
-import { ValidatorOutput } from '@/utils/Validator/types/Validator';
+import PasswordHash from '@/shared/ValueObject/PasswordHash';
 
 describe('Value Object - Password Hash', () => {
   let passwordHash: PasswordHash;
-  let validation: Validator;
-
   const value = '$2a$08$7iOUCtsgfKJhku7Iwm1dyeEoNzICTzQrg.UPLUShU.A7R4ylXkLc2';
 
   beforeEach(() => {
     jest.clearAllMocks();
     passwordHash = new PasswordHash(value);
-    validation = new Validator();
   });
 
   describe('Creation', () => {
@@ -27,29 +21,23 @@ describe('Value Object - Password Hash', () => {
     });
   });
 
-  describe('validate()', () => {
+  describe('getNotifications()', () => {
     it('should return notifications if invalid password hash', () => {
       const invalidValue = '!S3nh4%';
-
-      const message = notificationMessages.regex('Senha Hash');
-      const expectedResult: ValidatorOutput = {
-        success: false,
-        notifications: [message],
+      const passwordHash = new PasswordHash(invalidValue);
+      const expectedResult = {
+        Senha: ['Senha não corresponde ao padrão esperado!'],
       };
 
-      const passwordHash = new PasswordHash(invalidValue);
-      const result = passwordHash.validate(validation);
+      const result = passwordHash.getNotifications();
 
       expect(result).toStrictEqual(expectedResult);
     });
 
-    it('should return success for a valid password hash', () => {
-      const expectedResult: ValidatorOutput = {
-        success: true,
-        notifications: [],
-      };
+    it('should return empty notifications for a valid password hash', () => {
+      const expectedResult = {};
 
-      const result = passwordHash.validate(validation);
+      const result = passwordHash.getNotifications();
 
       expect(result).toStrictEqual(expectedResult);
     });

@@ -1,81 +1,43 @@
-import Notification from '@/utils/Notification';
-import { notificationMessages } from '@/constants/NotificationMessages';
+import Notification from '@/utils/core-validator/Notification';
 
 describe('Class - Notification', () => {
   let notification: Notification;
 
-  beforeEach(() => {
-    jest.clearAllMocks();
-    notification = new Notification();
-  });
-
   const props = {
-    value: 'value',
     key: 'key',
+    message: 'message',
   };
 
-  describe('addNotification()', () => {
-    it('should add a notification message', () => {
-      const message = notificationMessages.required(props.key);
+  beforeEach(() => {
+    jest.clearAllMocks();
+    notification = new Notification(props.key, props.message);
+  });
 
-      notification.addNotification(message);
-
-      expect(notification.getNotifications()).toStrictEqual([message]);
+  describe('Creation()', () => {
+    it('should create a notification message', () => {
+      expect(notification).toBeInstanceOf(Notification);
     });
   });
 
-  describe('hasNotifications()', () => {
-    it('should has a empty notification message', () => {
-      notification.hasNotifications();
-
-      expect(notification.getNotifications()).toStrictEqual([]);
+  describe('Getters()', () => {
+    it('should return notification message key', () => {
+      expect(notification.key).toBe(props.key);
     });
 
-    it('should has a notification message', () => {
-      const message = notificationMessages.required(props.key);
-
-      notification.addNotification(message);
-      notification.hasNotifications();
-
-      expect(notification.getNotifications()).toStrictEqual([message]);
+    it('should return notification message', () => {
+      expect(notification.message).toBe(props.message);
     });
   });
 
-  describe('clearNotifications()', () => {
-    it('should clear a notification message', () => {
-      const message = notificationMessages.required(props.key);
-
-      notification.addNotification(message);
-      notification.clearNotifications();
-
-      expect(notification.getNotifications()).toStrictEqual([]);
-    });
-  });
-
-  describe('validate()', () => {
-    it('should return success when no notifications', () => {
-      const expectedResult = {
-        success: true,
-        notifications: [],
-      };
-
-      expect(notification.getNotificationsOutput()).toStrictEqual(
-        expectedResult
-      );
+  describe('Setters()', () => {
+    it('should set new notification message key', () => {
+      notification.key = 'new key';
+      expect(notification.key).toBe('new key');
     });
 
-    it('should return failure when has notifications', () => {
-      const message = notificationMessages.required(props.key);
-
-      notification.addNotification(message);
-      const expectedResult = {
-        success: false,
-        notifications: [message],
-      };
-
-      expect(notification.getNotificationsOutput()).toStrictEqual(
-        expectedResult
-      );
+    it('should set new notification message', () => {
+      notification.message = 'new message';
+      expect(notification.message).toBe('new message');
     });
   });
 });

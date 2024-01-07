@@ -3,6 +3,7 @@ import { UserProps } from '@/model/User/types/UserProps';
 
 export default class UserBuilder {
   private props: UserProps = {
+    id: 'ba71211c-3da3-4052-ab2c-e4e651168f62',
     firstName: faker.person.firstName(),
     lastName: faker.person.lastName(),
     email: faker.internet.email(),
