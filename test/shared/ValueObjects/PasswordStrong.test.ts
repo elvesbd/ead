@@ -1,10 +1,7 @@
-import { notificationMessages } from '@/constants/NotificationMessages';
-import PasswordStrong from '@/shared/ValueObjects/PasswordStrong';
-import { ValidatorOutput } from '@/utils/Validator/types/Validator';
+import PasswordStrong from '@/shared/ValueObject/PasswordStrong';
 
 describe('Value Object - Password Strong', () => {
   let passwordStrong: PasswordStrong;
-
   const value = '@L_2456l';
 
   beforeEach(() => {
@@ -24,104 +21,71 @@ describe('Value Object - Password Strong', () => {
     });
   });
 
-  describe('validate()', () => {
-    it('should return notifications for an without user value', () => {
-      const invalidValue = '@mail.com';
-
-      const message = notificationMessages.regex('Senha');
-      const expectedResult: ValidatorOutput = {
-        success: false,
-        notifications: [message],
-      };
-
-      const passwordStrong = new PasswordStrong(invalidValue);
-      const result = passwordStrong.validate();
-
-      expect(result).toStrictEqual(expectedResult);
-    });
-
+  describe('getNotifications()', () => {
     it('should return notifications if it contains empty value', () => {
       const invalidValue = '';
-
-      const message = notificationMessages.regex('Senha');
-      const expectedResult: ValidatorOutput = {
-        success: false,
-        notifications: [message],
+      const passwordStrong = new PasswordStrong(invalidValue);
+      const expectedResult = {
+        Senha: ['Senha não corresponde ao padrão esperado!'],
       };
 
-      const passwordStrong = new PasswordStrong(invalidValue);
-      const result = passwordStrong.validate();
+      const result = passwordStrong.getNotifications();
 
       expect(result).toStrictEqual(expectedResult);
     });
 
     it('should return notifications if it contains only numbers', () => {
       const invalidValue = '123456789';
-
-      const message = notificationMessages.regex('Senha');
-      const expectedResult: ValidatorOutput = {
-        success: false,
-        notifications: [message],
+      const passwordStrong = new PasswordStrong(invalidValue);
+      const expectedResult = {
+        Senha: ['Senha não corresponde ao padrão esperado!'],
       };
 
-      const passwordStrong = new PasswordStrong(invalidValue);
-      const result = passwordStrong.validate();
+      const result = passwordStrong.getNotifications();
 
       expect(result).toStrictEqual(expectedResult);
     });
 
     it('should return notifications if it contains only letters', () => {
       const invalidValue = 'AaBbCcDdEeFf';
-
-      const message = notificationMessages.regex('Senha');
-      const expectedResult: ValidatorOutput = {
-        success: false,
-        notifications: [message],
+      const passwordStrong = new PasswordStrong(invalidValue);
+      const expectedResult = {
+        Senha: ['Senha não corresponde ao padrão esperado!'],
       };
 
-      const passwordStrong = new PasswordStrong(invalidValue);
-      const result = passwordStrong.validate();
+      const result = passwordStrong.getNotifications();
 
       expect(result).toStrictEqual(expectedResult);
     });
 
     it('should return notifications if it contains only special characters', () => {
       const invalidValue = '!@#$%"&*()_+';
-
-      const message = notificationMessages.regex('Senha');
-      const expectedResult: ValidatorOutput = {
-        success: false,
-        notifications: [message],
+      const passwordStrong = new PasswordStrong(invalidValue);
+      const expectedResult = {
+        Senha: ['Senha não corresponde ao padrão esperado!'],
       };
 
-      const passwordStrong = new PasswordStrong(invalidValue);
-      const result = passwordStrong.validate();
+      const result = passwordStrong.getNotifications();
 
       expect(result).toStrictEqual(expectedResult);
     });
 
     it('should return notifications if contains less than 8 characters', () => {
       const invalidValue = '!S3nh4%';
-
-      const message = notificationMessages.regex('Senha');
-      const expectedResult: ValidatorOutput = {
-        success: false,
-        notifications: [message],
+      const passwordStrong = new PasswordStrong(invalidValue);
+      const expectedResult = {
+        Senha: ['Senha não corresponde ao padrão esperado!'],
       };
 
-      const passwordStrong = new PasswordStrong(invalidValue);
-      const result = passwordStrong.validate();
+      const result = passwordStrong.getNotifications();
 
       expect(result).toStrictEqual(expectedResult);
     });
 
-    it('should return success for a valid value', () => {
-      const expectedResult: ValidatorOutput = {
-        success: true,
-        notifications: [],
-      };
+    it('should return empty notifications for a valid value', () => {
+      const expectedResult = {};
 
-      const result = passwordStrong.validate();
+      const result = passwordStrong.getNotifications();
 
       expect(result).toStrictEqual(expectedResult);
     });

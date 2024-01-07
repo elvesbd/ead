@@ -6,7 +6,7 @@
 ![GitHub issues](https://img.shields.io/github/issues-raw/elvesbd/ead?style=for-the-badge)
 ![GitHub pull requests](https://img.shields.io/github/issues-pr/elvesbd/ead?style=for-the-badge)
 
-![Coverage](https://i.imgur.com/Da088AI.png)
+![Coverage](https://i.imgur.com/fmZM5yw.png)
 
 # Modelo de Domínio Evolutivo em TypeScript
 

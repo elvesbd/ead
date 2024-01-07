@@ -1,57 +1,65 @@
-import Id from '@/shared/ValueObjects/Id';
-import Entity from '@/shared/ValueObjects/Entity';
-import { EntityProps } from '@/shared/ValueObjects/Entity/types/EntityProps';
+import Id from '@/shared/ValueObject/Id';
+import Entity from '@/shared/ValueObject/Entity';
+import { EntityProps } from '@/shared/ValueObject/Entity/types/EntityProps';
 
 interface EntitySPYProps extends EntityProps {
   name: string;
   age: number;
 }
 
-class EntitySPY extends Entity<EntitySPY, EntitySPYProps> {}
+class EntitySPY extends Entity<EntitySPY, EntitySPYProps> {
+  getUserProps(): EntitySPYProps {
+    return {
+      id: this._id.getValue,
+      name: 'Elves',
+      age: 40,
+    };
+  }
+
+  isValid(): boolean {
+    return true;
+  }
+
+  getNotifications(): Record<string, string[]> {
+    return {};
+  }
+}
 
 describe('Value Object - Entity', () => {
-  const input = {
+  let entity: EntitySPY;
+
+  const props = {
     name: 'Elves',
     age: 40,
   };
 
-  it('should returns true if the entities have the same id', () => {
-    const id = new Id().value;
-
-    const entityOne = new EntitySPY({ id, name: input.name, age: input.age });
-    const entityTwo = new EntitySPY({ id, name: input.name, age: input.age });
-
-    expect(entityOne.isEqual(entityTwo)).toBeTruthy();
-    expect(entityOne.isDifferent(entityTwo)).toBeFalsy();
+  beforeEach(() => {
+    entity = new EntitySPY({
+      id: new Id('4b9c7f6f-ae18-42a8-beb7-9112236e01d1').getValue,
+      ...props,
+    });
   });
 
-  it('should returns false if the entities have the not same id', () => {
-    const idOne = new Id().value;
-    const idTwo = new Id().value;
-
-    const entityOne = new EntitySPY({
-      id: idOne,
-      name: input.name,
-      age: input.age,
+  describe('getUserProps()', () => {
+    it('should return correct user props', () => {
+      const userProps = entity.getUserProps();
+      expect(userProps.id).toBe('4b9c7f6f-ae18-42a8-beb7-9112236e01d1');
+      expect(userProps.name).toBe('Elves');
+      expect(userProps.age).toBe(40);
     });
-    const entityTwo = new EntitySPY({
-      id: idTwo,
-      name: input.name,
-      age: input.age,
-    });
-
-    expect(entityOne.isDifferent(entityTwo)).toBeTruthy();
-    expect(entityOne.isEqual(entityTwo)).toBeFalsy();
   });
 
-  it('should clone entity', () => {
-    const id = new Id().value;
+  describe('isValid()', () => {
+    it('should return true for isValid', () => {
+      const result = entity.isValid();
+      expect(result).toBeTruthy();
+    });
+  });
 
-    const entity = new EntitySPY({ id, name: input.name, age: input.age });
-    const result = entity.clone({ id, name: input.name, age: 30 });
-
-    expect(result.id.value).toBe(entity.id.value);
-    expect(result.props.name).toBe(entity.props.name);
-    expect(result.props.age).toBe(30);
+  describe('getNotifications()', () => {
+    it('should return empty notifications', () => {
+      const notifications = entity.getNotifications();
+      expect(Object.keys(notifications)).toHaveLength(0);
+    });
   });
 });

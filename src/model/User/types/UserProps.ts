@@ -1,4 +1,4 @@
-import { EntityProps } from '@/shared/ValueObjects/Entity/types/EntityProps';
+import { EntityProps } from '@/shared/ValueObject/Entity/types/EntityProps';
 
 export type UserProps = {
   firstName: string;

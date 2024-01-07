@@ -1,34 +1,50 @@
 import { UserProps } from './types/UserProps';
-import Email from '@/shared/ValueObjects/Email';
-import Entity from '@/shared/ValueObjects/Entity';
-import PersonName from '@/shared/ValueObjects/PersonName';
-import PasswordHash from '@/shared/ValueObjects/PasswordHash';
-import Validator from '@/utils/Validator';
-import { ValidatorOutput } from '@/utils/Validator/types/Validator';
+import Email from '@/shared/ValueObject/Email';
+import Entity from '@/shared/ValueObject/Entity';
+import PersonName from '@/shared/ValueObject/PersonName';
+import PasswordHash from '@/shared/ValueObject/PasswordHash';
 
 export default class User extends Entity<User, UserProps> {
-  private readonly email: Email;
-  private readonly name: PersonName;
-  private readonly password: PasswordHash;
+  private _email: Email;
+  private _name: PersonName;
+  private _password: PasswordHash;
 
-  constructor(props: UserProps) {
+  public constructor(props: UserProps) {
     super(props);
 
-    this.name = new PersonName({
+    this._name = new PersonName({
       firstName: props.firstName,
       lastName: props.lastName,
     });
-    this.email = new Email(props.email);
-    this.password = new PasswordHash(props.password);
+    this._email = new Email(props.email);
+    this._password = new PasswordHash(props.password);
   }
 
-  validate(): ValidatorOutput {
-    const validation = new Validator();
+  public getUserProps(): UserProps {
+    return {
+      id: this._id.getValue,
+      firstName: this._name.getFirstName,
+      lastName: this._name.getLastName,
+      email: this._email.getValue,
+      password: this._password.getValue,
+    };
+  }
 
-    this.name.validate(validation);
-    this.email.validate(validation);
-    this.password.validate(validation);
+  public isValid(): boolean {
+    return (
+      this._id.isValid() &&
+      this._name.isValid() &&
+      this._email.isValid() &&
+      this._password.isValid()
+    );
+  }
 
-    return validation.getOutput();
+  public getNotifications(): Record<string, string[]> {
+    return {
+      ...this._id.getNotifications(),
+      ...this._name.getNotifications(),
+      ...this._email.getNotifications(),
+      ...this._password.getNotifications(),
+    };
   }
 }
