@@ -38,12 +38,4 @@ export abstract class Notifiable<T extends Notification> {
   protected addNotifications(notifications: ReadonlyArray<T>): void {
     this._notifications.push(...notifications);
   }
-
-  private getNotificationInstance(
-    key: string,
-    message: string,
-    ctor: new (key: string, message: string) => T
-  ): T {
-    return new ctor(key, message);
-  }
 }
