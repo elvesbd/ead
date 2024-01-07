@@ -1,6 +1,7 @@
 import Notification from '@/utils/core-validator/Notification';
 import { Notifiable } from '@/utils/core-validator/Notifiable';
 import { notificationMessages } from '@/utils/core-validator/messages/NotificationMessages';
+import { CpfValidator } from './helpers/CpfValidator';
 
 export default class Validator extends Notifiable<Notification> {
   public isRequired(value: unknown, key: string, errorMessage?: string) {
@@ -115,6 +116,17 @@ export default class Validator extends Notifiable<Notification> {
     const isValidValue = typeof value === 'string' && uuidRegex.test(value);
     if (!isValidValue) {
       const message = errorMessage ?? notificationMessages.uuid(key);
+      this.addSingleNotification(key, message);
+    }
+
+    return this;
+  }
+
+  public isCPF(value: unknown, key: string, errorMessage?: string) {
+    const isValidCPF = typeof value === 'string' && CpfValidator.isValid(value);
+
+    if (!isValidCPF) {
+      const message = errorMessage ?? notificationMessages.cpf(key);
       this.addSingleNotification(key, message);
     }
 

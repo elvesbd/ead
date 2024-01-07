@@ -10,4 +10,5 @@ export const notificationMessages = {
   regex: (key: string) => `${key} não corresponde ao padrão esperado!`,
   email: (key: string) => `${key} deve ser um endereço de e-mail válido!`,
   uuid: (key: string) => `${key} deve ser um uuid válido!`,
+  cpf: (key: string) => `${key} deve ser um cpf válido`,
 };
