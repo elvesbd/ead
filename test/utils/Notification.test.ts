@@ -1,5 +1,4 @@
-import Notification from '@/utils/Notification';
-import { notificationMessages } from '@/constants/NotificationMessages';
+import Notification from '@/utils/core-validator/Notification';
 
 describe('Class - Notification', () => {
   let notification: Notification;

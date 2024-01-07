@@ -9,12 +9,17 @@ export function handler() {
   };
 
   const user = new User(input);
-  console.log('user.isValid()', user.isValid());
+  console.log(!user.isValid());
+
   if (!user.isValid()) {
-    console.log('NOTIFICATIONS - HANDLER', user.getNotifications());
-    return user.getNotifications;
+    console.log(user.getNotifications());
+
+    return user.getNotifications();
   }
-  console.log('ok', user);
+
+  console.log(user.getUserProps());
+
+  return user.getUserProps();
 }
 
 handler();

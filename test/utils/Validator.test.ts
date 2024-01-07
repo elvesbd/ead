@@ -1,7 +1,6 @@
-import Validator from '@/utils/Validator';
-import { ValidatorOutput } from '@/utils/Validator/types/Validator';
-import { notificationMessages } from '@/constants/NotificationMessages';
-import Notification from '@/utils/Notification';
+import Validator from '@/utils/core-validator/Validator';
+import Notification from '@/utils/core-validator/Notification';
+import { notificationMessages } from '@/utils/core-validator/messages/NotificationMessages';
 
 describe('Class - Validator', () => {
   let validator: Validator;
