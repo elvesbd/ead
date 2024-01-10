@@ -144,7 +144,7 @@ describe('Class - Validator', () => {
   describe('isShorterThan()', () => {
     let minLength = 0;
 
-    it('should returns minLength notification for short string', () => {
+    it('should returns notification for short string', () => {
       minLength = 6;
       validator.isShorterThan(props.value, props.key, minLength);
 
@@ -154,7 +154,7 @@ describe('Class - Validator', () => {
       expect(validator.notifications).toStrictEqual(notification);
     });
 
-    it('should returns minLength notification for short string array', () => {
+    it('should returns notification for short string array', () => {
       minLength = 2;
       validator.isShorterThan([props.value], props.key, minLength);
 
@@ -194,7 +194,7 @@ describe('Class - Validator', () => {
   describe('isLongerThan()', () => {
     let maxLength = 0;
 
-    it('should returns maxLength notification for long string', () => {
+    it('should returns notification for long string', () => {
       maxLength = 4;
       validator.isLongerThan(props.value, props.key, maxLength);
 
@@ -204,7 +204,7 @@ describe('Class - Validator', () => {
       expect(validator.notifications).toStrictEqual(notification);
     });
 
-    it('should returns maxLength notification for long string array', () => {
+    it('should returns notification for long string array', () => {
       maxLength = 1;
       validator.isLongerThan([props.value, props.value], props.key, maxLength);
 
@@ -242,7 +242,7 @@ describe('Class - Validator', () => {
   });
 
   describe('isNumber()', () => {
-    it('should return isNumber notification for string value', () => {
+    it('should return notification for string value', () => {
       validator.isNumber('1', props.key);
 
       const message = notificationMessages.number(props.key);
@@ -251,7 +251,7 @@ describe('Class - Validator', () => {
       expect(validator.notifications).toStrictEqual(notification);
     });
 
-    it('should return isNumber notification for boolean value', () => {
+    it('should return notification for boolean value', () => {
       validator.isNumber(true, props.key);
 
       const message = notificationMessages.number(props.key);
@@ -260,7 +260,7 @@ describe('Class - Validator', () => {
       expect(validator.notifications).toStrictEqual(notification);
     });
 
-    it('should return isNumber notification for object value', () => {
+    it('should return notification for object value', () => {
       validator.isNumber({}, props.key);
 
       const message = notificationMessages.number(props.key);
@@ -269,7 +269,7 @@ describe('Class - Validator', () => {
       expect(validator.notifications).toStrictEqual(notification);
     });
 
-    it('should return isNumber notification for undefined value', () => {
+    it('should return notification for undefined value', () => {
       validator.isNumber(undefined, props.key);
 
       const message = notificationMessages.number(props.key);
@@ -278,7 +278,7 @@ describe('Class - Validator', () => {
       expect(validator.notifications).toStrictEqual(notification);
     });
 
-    it('should return isNumber notification for null value', () => {
+    it('should return notification for null value', () => {
       validator.isNumber(null, props.key);
 
       const message = notificationMessages.number(props.key);
@@ -287,7 +287,7 @@ describe('Class - Validator', () => {
       expect(validator.notifications).toStrictEqual(notification);
     });
 
-    it('should return isNumber notification for NaN value', () => {
+    it('should return notification for NaN value', () => {
       validator.isNumber(NaN, props.key);
 
       const message = notificationMessages.number(props.key);
@@ -296,7 +296,7 @@ describe('Class - Validator', () => {
       expect(validator.notifications).toStrictEqual(notification);
     });
 
-    it('should returns isNumber notification with custom error message if type NaN', () => {
+    it('should returns notification with custom error message if type NaN', () => {
       const message = 'O valor informado deve ser do tipo number!';
 
       validator.isNumber(NaN, props.key, message);
@@ -490,6 +490,76 @@ describe('Class - Validator', () => {
     it('should returns empty notification for valid value', () => {
       const value = 'dfce3e63-8c77-4cf3-90b8-0a63996ef10d';
       validator.isUUID(value, props.key);
+      expect(validator.notifications).toStrictEqual([]);
+    });
+  });
+
+  describe.only('isCPF()', () => {
+    it('should return notification for boolean value', () => {
+      validator.isCPF(true, props.key);
+
+      const message = notificationMessages.cpf(props.key);
+      const notification = generateNotification(props.key, message);
+
+      expect(validator.notifications).toStrictEqual(notification);
+    });
+
+    it('should return notification for object value', () => {
+      validator.isCPF({}, props.key);
+
+      const message = notificationMessages.cpf(props.key);
+      const notification = generateNotification(props.key, message);
+
+      expect(validator.notifications).toStrictEqual(notification);
+    });
+
+    it('should return notification for undefined value', () => {
+      validator.isCPF(undefined, props.key);
+
+      const message = notificationMessages.cpf(props.key);
+      const notification = generateNotification(props.key, message);
+
+      expect(validator.notifications).toStrictEqual(notification);
+    });
+
+    it('should return notification for null value', () => {
+      validator.isCPF(null, props.key);
+
+      const message = notificationMessages.cpf(props.key);
+      const notification = generateNotification(props.key, message);
+
+      expect(validator.notifications).toStrictEqual(notification);
+    });
+
+    it('should return notification for NaN value', () => {
+      validator.isCPF(NaN, props.key);
+
+      const message = notificationMessages.cpf(props.key);
+      const notification = generateNotification(props.key, message);
+
+      expect(validator.notifications).toStrictEqual(notification);
+    });
+
+    it('should returns notification with custom error message if invalid value', () => {
+      const message = 'O valor informado deve ser um cpf válido!';
+
+      validator.isCPF(NaN, props.key, message);
+      const notification = generateNotification(props.key, message);
+
+      expect(validator.notifications).toStrictEqual(notification);
+    });
+
+    it('should return notification for invalid cpf', () => {
+      validator.isCPF('123.456.789-00', props.key);
+
+      const message = notificationMessages.cpf(props.key);
+      const notification = generateNotification(props.key, message);
+
+      expect(validator.notifications).toStrictEqual(notification);
+    });
+
+    it('should returns empty notifications for valid cpf', () => {
+      validator.isCPF('406.371.700-32', props.key);
       expect(validator.notifications).toStrictEqual([]);
     });
   });
