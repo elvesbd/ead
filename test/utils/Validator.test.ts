@@ -494,7 +494,7 @@ describe('Class - Validator', () => {
     });
   });
 
-  describe.only('isCPF()', () => {
+  describe('isCPF()', () => {
     it('should return notification for boolean value', () => {
       validator.isCPF(true, props.key);
 
@@ -558,8 +558,13 @@ describe('Class - Validator', () => {
       expect(validator.notifications).toStrictEqual(notification);
     });
 
-    it('should returns empty notifications for valid cpf', () => {
+    it('should return empty notifications for valid CPF with formatted input', () => {
       validator.isCPF('406.371.700-32', props.key);
+      expect(validator.notifications).toStrictEqual([]);
+    });
+
+    it('should return empty notifications for valid CPF with unformatted input', () => {
+      validator.isCPF('40637170032', props.key);
       expect(validator.notifications).toStrictEqual([]);
     });
   });

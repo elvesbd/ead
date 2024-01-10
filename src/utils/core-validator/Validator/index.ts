@@ -133,6 +133,16 @@ export default class Validator extends Notifiable<Notification> {
     return this;
   }
 
+  public isNegative(value: unknown, key: string, errorMessage?: string) {
+    const isValidValue = typeof value === 'number' && !isNaN(value);
+    if (!isValidValue) {
+      const message = errorMessage ?? notificationMessages.negative(key);
+      this.addSingleNotification(key, message);
+    }
+
+    return this;
+  }
+
   public addSingleNotification(key: string, message: string): void {
     const notificationInstance = new Notification(key, message);
     this.addNotification(notificationInstance);
