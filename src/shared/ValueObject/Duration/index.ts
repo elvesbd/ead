@@ -2,9 +2,9 @@ import Validator from '@/utils/core-validator/Validator';
 import { ValueObject } from '..';
 
 export default class Duration extends ValueObject {
-  static readonly MINUTE: number = 60;
-  static readonly HOUR: number = 3600;
-  static readonly DAY: number = 86400;
+  private static readonly MINUTE: number = 60;
+  private static readonly HOUR: number = 3600;
+  private static readonly DAY: number = 86400;
 
   private _seconds: number;
 
