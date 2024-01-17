@@ -20,7 +20,7 @@ class EntitySPY extends Entity<EntitySPY, EntitySPYProps> {
     return true;
   }
 
-  getNotifications(): Record<string, string[]> {
+  get notifications(): Record<string, string[]> {
     return {};
   }
 }
@@ -58,7 +58,7 @@ describe('Value Object - Entity', () => {
 
   describe('getNotifications()', () => {
     it('should return empty notifications', () => {
-      const notifications = entity.getNotifications();
+      const notifications = entity.notifications;
       expect(Object.keys(notifications)).toHaveLength(0);
     });
   });

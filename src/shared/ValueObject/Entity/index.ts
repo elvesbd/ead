@@ -13,5 +13,5 @@ export default abstract class Entity<
 
   abstract getUserProps(): P;
   abstract isValid(): boolean;
-  abstract getNotifications(): Record<string, string[]>;
+  abstract get notifications(): Record<string, string[]>;
 }

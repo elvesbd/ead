@@ -12,9 +12,9 @@ export function handler() {
   console.log(!user.isValid());
 
   if (!user.isValid()) {
-    console.log(user.getNotifications());
+    console.log(user.notifications);
 
-    return user.getNotifications();
+    return user.notifications;
   }
 
   console.log(user.getUserProps());
