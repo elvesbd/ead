@@ -15,12 +15,12 @@ export default class Validator extends Notifiable<Notification> {
   }
 
   public isNotEmpty(value: unknown, key: string, errorMessage?: string) {
-    const empty =
+    const isValidValue =
       value === undefined ||
       value === null ||
       (typeof value === 'string' && value.trim() === '');
 
-    if (empty) {
+    if (isValidValue) {
       const message = errorMessage ?? notificationMessages.empty(key);
       this.addSingleNotification(key, message);
     }
@@ -100,8 +100,8 @@ export default class Validator extends Notifiable<Notification> {
 
   public isEmail(value: unknown, key: string, errorMessage?: string) {
     const regex = /^[a-z0-9._-]+@[a-z0-9]+\.[a-z]+(\.[a-z]+)?$/i;
-    const valid = typeof value === 'string' && regex.test(value);
-    if (!valid) {
+    const isValidValue = typeof value === 'string' && regex.test(value);
+    if (!isValidValue) {
       const message = errorMessage ?? notificationMessages.email(key);
       this.addSingleNotification(key, message);
     }
@@ -123,9 +123,9 @@ export default class Validator extends Notifiable<Notification> {
   }
 
   public isCPF(value: unknown, key: string, errorMessage?: string) {
-    const isValidCPF = typeof value === 'string' && CpfValidator.isValid(value);
+    const isValidValue = typeof value === 'string' && CpfValidator.isValid(value);
 
-    if (!isValidCPF) {
+    if (!isValidValue) {
       const message = errorMessage ?? notificationMessages.cpf(key);
       this.addSingleNotification(key, message);
     }
@@ -134,7 +134,7 @@ export default class Validator extends Notifiable<Notification> {
   }
 
   public isNegative(value: unknown, key: string, errorMessage?: string) {
-    const isValidValue = typeof value === 'number' && !isNaN(value);
+    const isValidValue = typeof value === 'number' && !isNaN(value) && value > 0;
     if (!isValidValue) {
       const message = errorMessage ?? notificationMessages.negative(key);
       this.addSingleNotification(key, message);
