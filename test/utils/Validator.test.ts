@@ -568,4 +568,77 @@ describe('Class - Validator', () => {
       expect(validator.notifications).toStrictEqual([]);
     });
   });
+
+  describe('isNegative()', () => {
+    it('should return notification for negative number', () => {
+      const value = -1;
+      validator.isNegative(value, props.key);
+
+      const message = notificationMessages.negative(props.key);
+      const notification = generateNotification(props.key, message);
+
+      expect(validator.notifications).toStrictEqual(notification);
+    });
+
+    it('should return notification for boolean', () => {
+      validator.isNegative(true, props.key);
+
+      const message = notificationMessages.negative(props.key);
+      const notification = generateNotification(props.key, message);
+
+      expect(validator.notifications).toStrictEqual(notification);
+    });
+
+    it('should return notification for object', () => {
+      validator.isNegative({}, props.key);
+
+      const message = notificationMessages.negative(props.key);
+      const notification = generateNotification(props.key, message);
+
+      expect(validator.notifications).toStrictEqual(notification);
+    });
+
+    it('should return notification for undefined', () => {
+      validator.isNegative(undefined, props.key);
+
+      const message = notificationMessages.negative(props.key);
+      const notification = generateNotification(props.key, message);
+
+      expect(validator.notifications).toStrictEqual(notification);
+    });
+
+    it('should return notification for null', () => {
+      validator.isNegative(null, props.key);
+
+      const message = notificationMessages.negative(props.key);
+      const notification = generateNotification(props.key, message);
+
+      expect(validator.notifications).toStrictEqual(notification);
+    });
+
+    it('should return notification for NaN', () => {
+      validator.isNegative(NaN, props.key);
+
+      const message = notificationMessages.negative(props.key);
+      const notification = generateNotification(props.key, message);
+
+      expect(validator.notifications).toStrictEqual(notification);
+    });
+
+    it('should returns notification with custom notification message if type not string', () => {
+      const message = 'O valor informado deve ser do tipo string!';
+
+      validator.isNegative(NaN, props.key, message);
+      const notification = generateNotification(props.key, message);
+
+      expect(validator.notifications).toStrictEqual(notification);
+    });
+
+    it('should returns empty notification for valid string value', () => {
+      const value = 1;
+      validator.isNegative(value, props.key);
+      expect(validator.notifications).toStrictEqual([]);
+    });
+  });
+
 });

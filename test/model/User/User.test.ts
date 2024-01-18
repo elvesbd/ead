@@ -51,7 +51,7 @@ describe('Entity - User', () => {
         ],
       };
 
-      const result = user.getNotifications();
+      const result = user.notifications;
 
       expect(result).toStrictEqual(expectedResult);
     });
@@ -64,7 +64,7 @@ describe('Entity - User', () => {
         Email: ['Email deve ser um endereço de e-mail válido!'],
       };
 
-      const result = user.getNotifications();
+      const result = user.notifications;
 
       expect(result).toStrictEqual(expectedResult);
     });
@@ -77,7 +77,7 @@ describe('Entity - User', () => {
         Senha: ['Senha não corresponde ao padrão esperado!'],
       };
 
-      const result = user.getNotifications();
+      const result = user.notifications;
 
       expect(result).toStrictEqual(expectedResult);
     });
@@ -85,7 +85,7 @@ describe('Entity - User', () => {
     it('should return success for a valid person name', () => {
       const user = new User(props);
 
-      const result = user.getNotifications();
+      const result = user.notifications;
 
       expect(result).toStrictEqual({});
     });
