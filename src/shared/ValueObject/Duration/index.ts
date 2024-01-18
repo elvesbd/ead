@@ -16,6 +16,10 @@ export default class Duration extends ValueObject {
     this.addNotifications(validator.notifications);
   }
 
+  get seconds(): number {
+    return this._seconds;
+  }
+
   get zeroed(): boolean {
     return this._seconds === 0;
   }
@@ -42,11 +46,15 @@ export default class Duration extends ValueObject {
     };
   }
 
-  sum(duration: Duration): Duration {
+  public sum(duration: Duration): Duration {
     return new Duration(this._seconds + duration._seconds);
   }
 
-  isEqual(duration: Duration): boolean {
+  public isEqual(duration: Duration): boolean {
     return this._seconds === duration._seconds;
+  }
+
+  public getNotifications(): Record<string, string[]> {
+    return this.groupedNotifications;
   }
 }
