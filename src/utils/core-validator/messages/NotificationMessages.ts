@@ -12,4 +12,5 @@ export const notificationMessages = {
   uuid: (key: string) => `${key} deve ser um uuid válido!`,
   cpf: (key: string) => `${key} deve ser um cpf válido`,
   negative: (key: string) => `${key} não pode ser um número negativo!`,
+  url: (key: string) => `${key} deve ser válida!`,
 };
