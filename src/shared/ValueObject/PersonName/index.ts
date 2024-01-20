@@ -27,15 +27,15 @@ export default class PersonName extends ValueObject {
     this.addNotifications(validator.notifications);
   }
 
-  get getFirstName() {
+  get getFirstName(): string {
     return this._firstName;
   }
 
-  get getLastName() {
+  get getLastName(): string {
     return this._lastName;
   }
 
-  get getInitials() {
+  get getInitials(): string {
     const firstLetter = this._firstName[0];
     const secondLetter = this._lastName[0];
     return `${firstLetter}${secondLetter}`;

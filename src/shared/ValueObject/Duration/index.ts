@@ -1,6 +1,6 @@
+import { ValueObject } from '@/shared/ValueObject';
+import { DurationParts } from './types/DurationParts';
 import Validator from '@/utils/core-validator/Validator';
-import { ValueObject } from '..';
-
 export default class Duration extends ValueObject {
   private static readonly MINUTE: number = 60;
   private static readonly HOUR: number = 3600;
@@ -38,7 +38,7 @@ export default class Duration extends ValueObject {
       .padStart(2, '0')}m ${seconds.toString().padStart(2, '0')}s`;
   }
 
-  private separatedParts() {
+  private separatedParts(): DurationParts {
     return {
       hours: Math.floor(this._seconds / Duration.HOUR),
       minutes: Math.floor(this._seconds % Duration.HOUR) / Duration.MINUTE,

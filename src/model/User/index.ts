@@ -39,7 +39,7 @@ export default class User extends Entity<User, UserProps> {
     );
   }
 
-  get notifications(): Record<string, string[]> {
+  public get notifications(): Record<string, string[]> {
     return {
       ...this._id.getNotifications(),
       ...this._name.getNotifications(),

@@ -47,7 +47,7 @@ describe('Value Object - Duration', () => {
   });
 
   describe('Methods', () => {
-    describe('sum', () => {
+    describe('sum()', () => {
       it('should return the sum of two durations in seconds', () => {
         const newDuration = new Duration(3600);
 
@@ -71,7 +71,7 @@ describe('Value Object - Duration', () => {
       });
     });
 
-    describe('isEqual', () => {
+    describe('isEqual()', () => {
       it('should return true if durations is equals', () => {
         const newDuration = new Duration(3600);
 
@@ -85,7 +85,7 @@ describe('Value Object - Duration', () => {
       });
     });
 
-    describe('getNotifications', () => {
+    describe('getNotifications()', () => {
       it('should return notification if value is negative', () => {
         const value = -1;
         const duration = new Duration(value);
