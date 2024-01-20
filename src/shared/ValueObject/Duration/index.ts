@@ -25,20 +25,20 @@ export default class Duration extends ValueObject {
   }
 
   get formattedHourAndMinutes() {
-    const { hours, minutes } = this.separatedParts;
+    const { hours, minutes } = this.separatedParts();
     return `${hours.toString().padStart(2, '0')}h ${minutes
       .toString()
       .padStart(2, '0')}m`;
   }
 
   get formattedHourAndMinutesAndSeconds() {
-    const { hours, minutes, seconds } = this.separatedParts;
+    const { hours, minutes, seconds } = this.separatedParts();
     return `${hours.toString().padStart(2, '0')}h ${minutes
       .toString()
       .padStart(2, '0')}m ${seconds.toString().padStart(2, '0')}s`;
   }
 
-  private get separatedParts() {
+  private separatedParts() {
     return {
       hours: Math.floor(this._seconds / Duration.HOUR),
       minutes: Math.floor(this._seconds % Duration.HOUR) / Duration.MINUTE,

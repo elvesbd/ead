@@ -45,4 +45,26 @@ describe('Value Object - Duration', () => {
       expect(duration.formattedHourAndMinutesAndSeconds).toBe('01h 00m 00s');
     });
   });
+
+  describe('Methods', () => {
+    it('should return the sum of two durations in seconds', () => {
+      const newDuration = new Duration(3600);
+
+      expect(duration.sum(newDuration).seconds).toBe(7200);
+    });
+
+    it('should return the sum of two durations formatted in hours and minutes', () => {
+      const newDuration = new Duration(3600);
+
+      expect(duration.sum(newDuration).formattedHourAndMinutes).toBe('02h 00m');
+    });
+
+    it('should return the sum of two durations formatted in hours minutes and seconds', () => {
+      const newDuration = new Duration(3600);
+
+      expect(duration.sum(newDuration).formattedHourAndMinutesAndSeconds).toBe(
+        '02h 00m 00s'
+      );
+    });
+  });
 });
