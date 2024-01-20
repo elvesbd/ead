@@ -2,6 +2,7 @@ import Notification from '@/utils/core-validator/Notification';
 import { Notifiable } from '@/utils/core-validator/Notifiable';
 import { notificationMessages } from '@/utils/core-validator/messages/NotificationMessages';
 import { CpfValidator } from './helpers/CpfValidator';
+import { UrlValidator } from './helpers/UrlValidator';
 
 export default class Validator extends Notifiable<Notification> {
   public isRequired(value: unknown, key: string, errorMessage?: string) {
@@ -139,6 +140,19 @@ export default class Validator extends Notifiable<Notification> {
       typeof value === 'number' && !isNaN(value) && value > 0;
     if (!isValidValue) {
       const message = errorMessage ?? notificationMessages.negative(key);
+      this.addSingleNotification(key, message);
+    }
+
+    return this;
+  }
+
+  public isUrl(value: string, key: string, errorMessage?: string) {
+    const isValidValue =
+      typeof value === 'string' && UrlValidator.isValid(value);
+    console.log('isValidValue', isValidValue);
+
+    if (!isValidValue) {
+      const message = errorMessage ?? notificationMessages.url(key);
       this.addSingleNotification(key, message);
     }
 
