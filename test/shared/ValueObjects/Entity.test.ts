@@ -8,7 +8,7 @@ interface EntitySPYProps extends EntityProps {
 }
 
 class EntitySPY extends Entity<EntitySPY, EntitySPYProps> {
-  getUserProps(): EntitySPYProps {
+  getProps(): EntitySPYProps {
     return {
       id: this._id.getValue,
       name: 'Elves',
@@ -42,7 +42,7 @@ describe('Value Object - Entity', () => {
 
   describe('getUserProps()', () => {
     it('should return correct user props', () => {
-      const userProps = entity.getUserProps();
+      const userProps = entity.getProps();
       expect(userProps.id).toBe('4b9c7f6f-ae18-42a8-beb7-9112236e01d1');
       expect(userProps.name).toBe('Elves');
       expect(userProps.age).toBe(40);

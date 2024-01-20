@@ -1,5 +1,5 @@
+import { ValueObject } from '@/shared/ValueObject';
 import Validator from '@/utils/core-validator/Validator';
-import { ValueObject } from '..';
 
 export default class Name extends ValueObject {
   private _value: string;
@@ -13,18 +13,22 @@ export default class Name extends ValueObject {
       .isRequired(this._value, 'Nome')
       .isNotEmpty(this._value, 'Nome')
       .isLongerThan(this._value, 'Nome', 80)
-      .isShorterThan(this._value, 'Nome', 3);
+      .isShorterThan(this._value, 'Nome', 5);
     this.addNotifications(validator.notifications);
   }
 
-  get name(): string {
+  get value(): string {
     return this._value;
   }
 
-  get formattedPascalCase(): string {
+  public formattedPascalCase(): string {
     const capitalizeFirstLetter = (name: string) =>
       name.charAt(0).toUpperCase() + name.substring(1).toLowerCase();
 
     return this._value.split(' ').map(capitalizeFirstLetter).join(' ');
+  }
+
+  public getNotifications(): Record<string, string[]> {
+    return this.groupedNotifications;
   }
 }

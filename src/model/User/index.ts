@@ -20,7 +20,7 @@ export default class User extends Entity<User, UserProps> {
     this._password = new PasswordHash(props.password);
   }
 
-  public getUserProps(): UserProps {
+  public getProps(): UserProps {
     return {
       id: this._id.getValue,
       firstName: this._name.getFirstName,
