@@ -123,7 +123,8 @@ export default class Validator extends Notifiable<Notification> {
   }
 
   public isCPF(value: unknown, key: string, errorMessage?: string) {
-    const isValidValue = typeof value === 'string' && CpfValidator.isValid(value);
+    const isValidValue =
+      typeof value === 'string' && CpfValidator.isValid(value);
 
     if (!isValidValue) {
       const message = errorMessage ?? notificationMessages.cpf(key);
@@ -134,7 +135,8 @@ export default class Validator extends Notifiable<Notification> {
   }
 
   public isNegative(value: unknown, key: string, errorMessage?: string) {
-    const isValidValue = typeof value === 'number' && !isNaN(value) && value > 0;
+    const isValidValue =
+      typeof value === 'number' && !isNaN(value) && value > 0;
     if (!isValidValue) {
       const message = errorMessage ?? notificationMessages.negative(key);
       this.addSingleNotification(key, message);

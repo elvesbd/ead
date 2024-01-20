@@ -21,7 +21,7 @@ describe('Entity - User', () => {
 
   describe('getUserProps()', () => {
     it('should return user props on success', () => {
-      const result = user.getUserProps();
+      const result = user.getProps();
       expect(result).toStrictEqual(props);
     });
   });

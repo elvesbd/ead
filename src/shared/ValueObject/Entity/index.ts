@@ -11,7 +11,7 @@ export default abstract class Entity<
     this._id = new Id(props.id);
   }
 
-  abstract getUserProps(): P;
+  abstract getProps(): P;
   abstract isValid(): boolean;
   abstract get notifications(): Record<string, string[]>;
 }

@@ -45,4 +45,63 @@ describe('Value Object - Duration', () => {
       expect(duration.formattedHourAndMinutesAndSeconds).toBe('01h 00m 00s');
     });
   });
+
+  describe('Methods', () => {
+    describe('sum()', () => {
+      it('should return the sum of two durations in seconds', () => {
+        const newDuration = new Duration(3600);
+
+        expect(duration.sum(newDuration).seconds).toBe(7200);
+      });
+
+      it('should return the sum of two durations formatted in hours and minutes', () => {
+        const newDuration = new Duration(3600);
+
+        expect(duration.sum(newDuration).formattedHourAndMinutes).toBe(
+          '02h 00m'
+        );
+      });
+
+      it('should return the sum of two durations formatted in hours minutes and seconds', () => {
+        const newDuration = new Duration(3600);
+
+        expect(
+          duration.sum(newDuration).formattedHourAndMinutesAndSeconds
+        ).toBe('02h 00m 00s');
+      });
+    });
+
+    describe('isEqual()', () => {
+      it('should return true if durations is equals', () => {
+        const newDuration = new Duration(3600);
+
+        expect(duration.isEqual(newDuration)).toBeTruthy();
+      });
+
+      it('should return false if durations is not equals', () => {
+        const newDuration = new Duration(1800);
+
+        expect(duration.isEqual(newDuration)).toBeFalsy();
+      });
+    });
+
+    describe('getNotifications()', () => {
+      it('should return notification if value is negative', () => {
+        const value = -1;
+        const duration = new Duration(value);
+        const expectedResult = {
+          Duration: ['Duration não pode ser um número negativo!'],
+        };
+
+        const result = duration.getNotifications();
+
+        expect(result).toStrictEqual(expectedResult);
+      });
+
+      it('should return empty notification if value is not negative', () => {
+        const result = duration.getNotifications();
+        expect(result).toStrictEqual({});
+      });
+    });
+  });
 });
