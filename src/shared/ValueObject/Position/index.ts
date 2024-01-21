@@ -32,6 +32,10 @@ export default class Position extends ValueObject {
     return this._value > otherPosition.value ? 1 : -1;
   }
 
+  public sorting(positions: Position[]): Position[] {
+    return positions.sort((a, b) => a.compare(b));
+  }
+
   public getNotifications(): Record<string, string[]> {
     return this.groupedNotifications;
   }
