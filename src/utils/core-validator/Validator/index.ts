@@ -149,8 +149,6 @@ export default class Validator extends Notifiable<Notification> {
   public isUrl(value: string, key: string, errorMessage?: string) {
     const isValidValue =
       typeof value === 'string' && UrlValidator.isValid(value);
-    console.log('isValidValue', isValidValue);
-
     if (!isValidValue) {
       const message = errorMessage ?? notificationMessages.url(key);
       this.addSingleNotification(key, message);
