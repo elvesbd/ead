@@ -157,6 +157,23 @@ export default class Validator extends Notifiable<Notification> {
     return this;
   }
 
+  public isMoreThan(
+    value: unknown,
+    key: string,
+    size: number,
+    errorMessage?: string
+  ) {
+    const numericValue = Number(value);
+    const isValidValue = !isNaN(numericValue) && numericValue > size;
+
+    if (!isValidValue) {
+      const message = errorMessage ?? notificationMessages.moreThan(key, size);
+      this.addSingleNotification(key, message);
+    }
+
+    return this;
+  }
+
   public addSingleNotification(key: string, message: string): void {
     const notificationInstance = new Notification(key, message);
     this.addNotification(notificationInstance);
