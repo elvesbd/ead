@@ -20,31 +20,51 @@ describe('Value Object - Url', () => {
       expect(url.value).toBe(value);
     });
 
-    it('should return empty if protocol does not exists', () => {
-      const url = new Url('www.test.com');
-      expect(url.protocol).toBe('');
+    it('should return null if protocol does not exists', () => {
+      const url = new Url('//www.test.com');
+      const result = url.protocol;
+
+      expect(result).toBeNull();
     });
 
     it('should return protocol with success', () => {
       expect(url.protocol).toBe('https:');
     });
 
-    it('should return empty if domain does not exists', () => {
+    it('should return null if domain does not exists', () => {
       const url = new Url('https://');
-      expect(url.domain).toBe('');
+      const result = url.domain;
+
+      expect(result).toBeNull();
     });
 
     it('should return domain with success', () => {
       expect(url.domain).toBe('www.test.com');
     });
 
-    it('should return empty if path does not exists', () => {
+    it('should return null if path does not exists', () => {
       const url = new Url('search');
-      expect(url.path).toBe('');
+      const result = url.path;
+
+      expect(result).toBeNull();
     });
 
     it('should return path with success', () => {
       expect(url.path).toBe('/search');
+    });
+
+    it('should return null if search params does not exists', () => {
+      const url = new Url('https://www.test.com');
+      const result = url.params;
+
+      expect(result).toBeNull();
+    });
+
+    it('should return null if url does not exists', () => {
+      const url = new Url('');
+      const result = url.params;
+
+      expect(result).toBeNull();
     });
 
     it('should return params with success', () => {
@@ -52,6 +72,7 @@ describe('Value Object - Url', () => {
         q: 'typescript',
         hl: 'pt-BR',
       };
+
       expect(url.params).toStrictEqual(expectedResult);
     });
   });
