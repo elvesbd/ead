@@ -146,7 +146,7 @@ export default class Validator extends Notifiable<Notification> {
     return this;
   }
 
-  public isUrl(value: string, key: string, errorMessage?: string) {
+  public isUrl(value: unknown, key: string, errorMessage?: string) {
     const isValidValue =
       typeof value === 'string' && UrlValidator.isValid(value);
     if (!isValidValue) {
