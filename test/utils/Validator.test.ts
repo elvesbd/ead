@@ -641,4 +641,74 @@ describe('Class - Validator', () => {
     });
   });
 
+  describe('isUrl()', () => {
+    it('should return notification for number', () => {
+      validator.isUrl(1, props.key);
+
+      const message = notificationMessages.url(props.key);
+      const notification = generateNotification(props.key, message);
+
+      expect(validator.notifications).toStrictEqual(notification);
+    });
+
+    it('should return notification for boolean', () => {
+      validator.isUrl(true, props.key);
+
+      const message = notificationMessages.url(props.key);
+      const notification = generateNotification(props.key, message);
+
+      expect(validator.notifications).toStrictEqual(notification);
+    });
+
+    it('should return notification for object', () => {
+      validator.isUrl({}, props.key);
+
+      const message = notificationMessages.url(props.key);
+      const notification = generateNotification(props.key, message);
+
+      expect(validator.notifications).toStrictEqual(notification);
+    });
+
+    it('should return notification for undefined', () => {
+      validator.isUrl(undefined, props.key);
+
+      const message = notificationMessages.url(props.key);
+      const notification = generateNotification(props.key, message);
+
+      expect(validator.notifications).toStrictEqual(notification);
+    });
+
+    it('should return notification for null', () => {
+      validator.isUrl(null, props.key);
+
+      const message = notificationMessages.url(props.key);
+      const notification = generateNotification(props.key, message);
+
+      expect(validator.notifications).toStrictEqual(notification);
+    });
+
+    it('should return notification for NaN', () => {
+      validator.isUrl(NaN, props.key);
+
+      const message = notificationMessages.url(props.key);
+      const notification = generateNotification(props.key, message);
+
+      expect(validator.notifications).toStrictEqual(notification);
+    });
+
+    it('should returns notification with custom notification message if url not valid', () => {
+      const message = 'Deve ser uma URL válida!';
+
+      validator.isUrl(NaN, props.key, message);
+      const notification = generateNotification(props.key, message);
+
+      expect(validator.notifications).toStrictEqual(notification);
+    });
+
+    it('should returns empty notification for valid url value', () => {
+      const value = 'https://www.test.com';
+      validator.isUrl(value, props.key);
+      expect(validator.notifications).toStrictEqual([]);
+    });
+  });
 });

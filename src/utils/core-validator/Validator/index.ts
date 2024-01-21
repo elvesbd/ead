@@ -146,13 +146,28 @@ export default class Validator extends Notifiable<Notification> {
     return this;
   }
 
-  public isUrl(value: string, key: string, errorMessage?: string) {
+  public isUrl(value: unknown, key: string, errorMessage?: string) {
     const isValidValue =
       typeof value === 'string' && UrlValidator.isValid(value);
-    console.log('isValidValue', isValidValue);
-
     if (!isValidValue) {
       const message = errorMessage ?? notificationMessages.url(key);
+      this.addSingleNotification(key, message);
+    }
+
+    return this;
+  }
+
+  public isMoreThan(
+    value: unknown,
+    key: string,
+    size: number,
+    errorMessage?: string
+  ) {
+    const numericValue = Number(value);
+    const isValidValue = !isNaN(numericValue) && numericValue > size;
+
+    if (!isValidValue) {
+      const message = errorMessage ?? notificationMessages.moreThan(key, size);
       this.addSingleNotification(key, message);
     }
 

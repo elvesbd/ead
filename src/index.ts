@@ -17,9 +17,9 @@ export function handler() {
     return user.notifications;
   }
 
-  console.log(user.getUserProps());
+  console.log(user.getProps());
 
-  return user.getUserProps();
+  return user.getProps();
 }
 
 handler();

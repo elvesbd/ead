@@ -13,4 +13,5 @@ export const notificationMessages = {
   cpf: (key: string) => `${key} deve ser um cpf válido`,
   negative: (key: string) => `${key} não pode ser um número negativo!`,
   url: (key: string) => `${key} deve ser válida!`,
+  moreThan: (key: string, size: number) => `${key} deve ser maior que ${size}!`,
 };

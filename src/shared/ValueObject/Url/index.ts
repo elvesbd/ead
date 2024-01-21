@@ -12,33 +12,42 @@ export default class Url extends ValueObject {
     const validator = new Validator().isUrl(this._value, 'Url');
     this.addNotifications(validator.notifications);
 
-    if (validator.isValid()) this._url = new URL(this._value);
+    if (validator.isValid()) {
+      this._url = new URL(value);
+    } else {
+      this._url = null;
+    }
+  }
+
+  private get url(): URL | null {
+    return this._url;
   }
 
   get value(): string {
     return this._value;
   }
 
-  get protocol(): string {
-    return this._url?.protocol ?? '';
+  get protocol(): string | null {
+    return this.url?.protocol ?? null;
   }
 
-  get domain(): string {
-    return this._url?.hostname ?? '';
+  get domain(): string | null {
+    return this.url?.hostname ?? null;
   }
 
-  get path(): string {
-    return this._url?.pathname ?? '';
+  get path(): string | null {
+    return this.url?.pathname ?? null;
   }
 
-  get params(): Record<string, string> {
-    const result: Record<string, string> = {};
-
-    if (this._url) {
-      this._url.searchParams.forEach((value, key) => {
-        result[key] = value;
-      });
+  get params(): Record<string, string> | null {
+    if (!this.url?.search) {
+      return null;
     }
+
+    const result: Record<string, string> = {};
+    this.url.searchParams.forEach((value, key) => {
+      result[key] = value;
+    });
 
     return result;
   }
