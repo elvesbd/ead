@@ -163,8 +163,8 @@ export default class Validator extends Notifiable<Notification> {
     size: number,
     errorMessage?: string
   ) {
-    const numericValue = Number(value);
-    const isValidValue = !isNaN(numericValue) && numericValue > size;
+    const isValidValue =
+      typeof value === 'number' && !isNaN(value) && value > size;
 
     if (!isValidValue) {
       const message = errorMessage ?? notificationMessages.moreThan(key, size);

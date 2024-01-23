@@ -8,20 +8,16 @@ export default class Duration extends ValueObject {
 
   private _seconds: number;
 
-  public constructor(seconds?: number) {
+  public constructor(seconds: number) {
     super();
-    this._seconds = seconds ?? 0;
+    this._seconds = seconds;
 
-    const validator = new Validator().isNegative(this._seconds, 'Duration');
+    const validator = new Validator().isMoreThan(this._seconds, 'Duration', 0);
     this.addNotifications(validator.notifications);
   }
 
-  get seconds(): number {
+  get value(): number {
     return this._seconds;
-  }
-
-  get zeroed(): boolean {
-    return this._seconds === 0;
   }
 
   get formattedHourAndMinutes() {
