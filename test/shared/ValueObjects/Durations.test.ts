@@ -13,28 +13,11 @@ describe('Value Object - Duration', () => {
     it('should create a duration instance with success', () => {
       expect(duration).toBeInstanceOf(Duration);
     });
-
-    it('should create a zeroed duration', () => {
-      const duration = new Duration();
-
-      expect(duration.seconds).toBe(0);
-      expect(duration.formattedHourAndMinutes).toBe('00h 00m');
-      expect(duration.formattedHourAndMinutesAndSeconds).toBe('00h 00m 00s');
-    });
   });
 
   describe('Getters', () => {
     it('should return a seconds', () => {
-      expect(duration.seconds).toBe(3600);
-    });
-
-    it('should return true if zeroed seconds', () => {
-      const duration = new Duration();
-      expect(duration.zeroed).toBeTruthy();
-    });
-
-    it('should return false if zeroed seconds', () => {
-      expect(duration.zeroed).toBeFalsy();
+      expect(duration.value).toBe(3600);
     });
 
     it('should return the duration formatted in hours and minutes', () => {
@@ -51,7 +34,7 @@ describe('Value Object - Duration', () => {
       it('should return the sum of two durations in seconds', () => {
         const newDuration = new Duration(3600);
 
-        expect(duration.sum(newDuration).seconds).toBe(7200);
+        expect(duration.sum(newDuration).value).toBe(7200);
       });
 
       it('should return the sum of two durations formatted in hours and minutes', () => {
@@ -86,11 +69,11 @@ describe('Value Object - Duration', () => {
     });
 
     describe('getNotifications()', () => {
-      it('should return notification if value is negative', () => {
-        const value = -1;
+      it('should return notification if value is zeroed', () => {
+        const value = 0;
         const duration = new Duration(value);
         const expectedResult = {
-          Duration: ['Duration não pode ser um número negativo!'],
+          Duration: [`Duration deve ser maior que ${value}!`],
         };
 
         const result = duration.getNotifications();
