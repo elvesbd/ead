@@ -19,7 +19,7 @@ describe('Entity - User', () => {
     });
   });
 
-  describe('getUserProps()', () => {
+  describe('getProps()', () => {
     it('should return user props on success', () => {
       const result = user.getProps();
       expect(result).toStrictEqual(props);
@@ -27,7 +27,7 @@ describe('Entity - User', () => {
   });
 
   describe('isValid()', () => {
-    it('should return true ir user is valid', () => {
+    it('should return true if user is valid', () => {
       const result = user.isValid();
       expect(result).toBeTruthy();
     });

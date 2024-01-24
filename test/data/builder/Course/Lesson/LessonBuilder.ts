@@ -10,7 +10,7 @@ export default class LessonBuilder {
     position: faker.number.int({ min: 1, max: 100 }),
   };
 
-  public static aUser(): LessonBuilder {
+  public static aLesson(): LessonBuilder {
     return new LessonBuilder();
   }
 
