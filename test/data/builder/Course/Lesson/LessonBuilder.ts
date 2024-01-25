@@ -1,5 +1,6 @@
 import { faker } from '@faker-js/faker';
 import { LessonProps } from '@/model/Course/Lesson/types/LessonProps';
+import { randomUUID } from 'crypto';
 
 export default class LessonBuilder {
   private props: LessonProps = {
@@ -15,8 +16,13 @@ export default class LessonBuilder {
   }
 
   public static createLessons(qtde: number): LessonProps[] {
-    const lesson = () => LessonBuilder.aLesson().build();
+    const lesson = () => LessonBuilder.aLesson().withId().build();
     return Array.from({ length: qtde }).map(() => lesson());
+  }
+
+  public withId(): this {
+    this.props.id = randomUUID();
+    return this;
   }
 
   public withoutId(): this {
