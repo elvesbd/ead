@@ -1,4 +1,4 @@
-export default class LessonName {
+export default class LessonNames {
   static readonly names = [
     'Array',
     'Generics',
@@ -16,7 +16,7 @@ export default class LessonName {
   ];
 
   static get(): string {
-    const index = Math.floor(Math.random() * LessonName.names.length);
-    return LessonName.names[index];
+    const index = Math.floor(Math.random() * LessonNames.names.length);
+    return LessonNames.names[index];
   }
 }
