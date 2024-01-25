@@ -17,7 +17,7 @@ export default class Name extends ValueObject {
     this.addNotifications(validator.notifications);
   }
 
-  get value(): string {
+  public get value(): string {
     return this._value;
   }
 

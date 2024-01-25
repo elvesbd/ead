@@ -17,7 +17,12 @@ export default class Chapter extends Entity<Chapter, ChapterProps> {
   }
 
   getProps(): ChapterProps {
-    throw new Error('Method not implemented.');
+    return {
+      id: this._id.getValue,
+      name: this._name.value,
+      lessons: this._lessons.map((lesson) => lesson.getProps()),
+      position: this._position.value,
+    };
   }
 
   isValid(): boolean {

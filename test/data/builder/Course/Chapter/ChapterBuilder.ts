@@ -20,6 +20,16 @@ export default class ChapterBuilder {
     return this;
   }
 
+  public withoutName(): this {
+    this.props.name = '';
+    return this;
+  }
+
+  public withoutLessons(): this {
+    this.props.lessons = [];
+    return this;
+  }
+
   public withInvalidPosition(): this {
     this.props.position = 0;
     return this;
