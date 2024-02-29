@@ -50,6 +50,21 @@ export default class LessonBuilder {
     return this;
   }
 
+  public withName(name: string): this {
+    this.props.name = name;
+    return this;
+  }
+
+  public withDuration(duration: number): this {
+    this.props.duration = duration;
+    return this;
+  }
+
+  public withPosition(position: number): this {
+    this.props.position = position;
+    return this;
+  }
+
   public build(): LessonProps {
     return this.props;
   }

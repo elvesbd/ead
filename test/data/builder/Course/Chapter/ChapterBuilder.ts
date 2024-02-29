@@ -2,6 +2,7 @@ import { faker } from '@faker-js/faker';
 import { ChapterProps } from '@/model/Course/Chapter/types/ChapterProps';
 import ChapterNames from './ChapterNames';
 import LessonBuilder from '../Lesson/LessonBuilder';
+import { LessonProps } from '@/model/Course/Lesson/types/LessonProps';
 
 export default class ChapterBuilder {
   private props: ChapterProps = {
@@ -32,6 +33,11 @@ export default class ChapterBuilder {
 
   public withInvalidPosition(): this {
     this.props.position = 0;
+    return this;
+  }
+
+  public withLessons(lessons: LessonProps[]): this {
+    this.props.lessons = lessons;
     return this;
   }
 

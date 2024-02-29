@@ -19,6 +19,10 @@ export default class Lesson extends Entity<Lesson, LessonProps> {
     this._position = new Position(props.position);
   }
 
+  get duration(): Duration {
+    return this._duration;
+  }
+
   getProps(): LessonProps {
     return {
       id: this._id.getValue,

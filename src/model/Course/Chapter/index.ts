@@ -3,6 +3,7 @@ import { ChapterProps } from './types/ChapterProps';
 import Position from '@/shared/ValueObject/Position';
 import Name from '@/shared/ValueObject/Name';
 import Lesson from '../Lesson';
+import Duration from '@/shared/ValueObject/Duration';
 
 export default class Chapter extends Entity<Chapter, ChapterProps> {
   private _name: Name;
@@ -44,5 +45,11 @@ export default class Chapter extends Entity<Chapter, ChapterProps> {
         {}
       ),
     };
+  }
+
+  get duration(): Duration {
+    return this._lessons.reduce((durationTotal: Duration, lesson: Lesson) => {
+      return durationTotal.sum(lesson.duration);
+    }, new Duration(0));
   }
 }

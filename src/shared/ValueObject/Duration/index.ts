@@ -35,11 +35,11 @@ export default class Duration extends ValueObject {
   }
 
   private separatedParts(): DurationParts {
-    return {
-      hours: Math.floor(this._seconds / Duration.HOUR),
-      minutes: Math.floor(this._seconds % Duration.HOUR) / Duration.MINUTE,
-      seconds: this._seconds % Duration.MINUTE,
-    };
+    const hours = Math.floor(this._seconds / Duration.HOUR);
+    const remainingSeconds = this._seconds % Duration.HOUR;
+    const minutes = Math.floor(remainingSeconds / Duration.MINUTE);
+    const seconds = remainingSeconds % Duration.MINUTE;
+    return { hours, minutes, seconds };
   }
 
   public sum(duration: Duration): Duration {
