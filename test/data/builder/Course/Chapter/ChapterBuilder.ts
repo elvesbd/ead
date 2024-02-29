@@ -20,7 +20,7 @@ export default class ChapterBuilder {
     return this;
   }
 
-  public withoutName(): this {
+  public withInvalidName(): this {
     this.props.name = '';
     return this;
   }
