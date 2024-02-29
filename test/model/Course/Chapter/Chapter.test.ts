@@ -1,5 +1,6 @@
 import Chapter from '@/model/Course/Chapter';
 import ChapterBuilder from '@/test/data/builder/Course/Chapter/ChapterBuilder';
+import LessonBuilder from '@/test/data/builder/Course/Lesson/LessonBuilder';
 
 describe('Entity - Chapter', () => {
   let chapter: Chapter;
@@ -67,6 +68,36 @@ describe('Entity - Chapter', () => {
     it('should return success for a valid chapter', () => {
       const result = chapter.notifications;
       expect(result).toStrictEqual({});
+    });
+  });
+
+  describe('getDuration()', () => {
+    it('should return the sum of the duration of the courses', () => {
+      const lessons = [
+        LessonBuilder.aLesson()
+          .withName('Aula #1')
+          .withDuration(63)
+          .withPosition(1)
+          .build(),
+
+        LessonBuilder.aLesson()
+          .withName('Aula #2')
+          .withDuration(1007)
+          .withPosition(2)
+          .build(),
+
+        LessonBuilder.aLesson()
+          .withName('Aula #3')
+          .withDuration(3784)
+          .withPosition(3)
+          .build(),
+      ];
+      const props = ChapterBuilder.aChapter().withLessons(lessons).build();
+
+      const chapter = new Chapter(props);
+
+      expect(chapter.duration.value).toBe(4854);
+      expect(chapter.duration.formattedHourAndMinutes).toBe('01h 20m');
     });
   });
 });
