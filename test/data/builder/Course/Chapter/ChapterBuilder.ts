@@ -6,7 +6,6 @@ import { LessonProps } from '@/model/Course/Lesson/types/LessonProps';
 
 export default class ChapterBuilder {
   private props: ChapterProps = {
-    id: 'ba71211c-3da3-4052-ab2c-e4e651168f62',
     name: ChapterNames.get(),
     lessons: LessonBuilder.createLessons(10),
     position: faker.number.int({ min: 1, max: 100 }),
