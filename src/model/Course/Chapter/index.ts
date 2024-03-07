@@ -35,6 +35,10 @@ export default class Chapter extends Entity<Chapter, ChapterProps> {
     );
   }
 
+  get lessons(): Lesson[] {
+    return this._lessons;
+  }
+
   get notifications(): Record<string, string[]> {
     return {
       ...this._id.getNotifications(),
