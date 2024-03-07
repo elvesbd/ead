@@ -115,13 +115,13 @@ describe('Entity - Chapter', () => {
         LessonBuilder.aLesson()
           .withName('Aula #1')
           .withDuration(63)
-          .withPosition(1)
+          .withPosition(2)
           .build(),
 
         LessonBuilder.aLesson()
           .withName('Aula #2')
           .withDuration(1007)
-          .withPosition(1)
+          .withPosition(3)
           .build(),
 
         LessonBuilder.aLesson()
