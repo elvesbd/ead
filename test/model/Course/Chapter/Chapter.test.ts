@@ -72,7 +72,7 @@ describe('Entity - Chapter', () => {
   });
 
   describe('getDuration()', () => {
-    it('should return the sum of the duration of the courses', () => {
+    it('should return the sum of the duration of the lessons', () => {
       const lessons = [
         LessonBuilder.aLesson()
           .withName('Aula #1')
@@ -99,5 +99,9 @@ describe('Entity - Chapter', () => {
       expect(chapter.duration.value).toBe(4854);
       expect(chapter.duration.formattedHourAndMinutes).toBe('01h 20m');
     });
+  });
+
+  describe('getDuration()', () => {
+    it('should return the correct order of the lessons', () => {});
   });
 });
