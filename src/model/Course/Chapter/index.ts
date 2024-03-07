@@ -47,6 +47,18 @@ export default class Chapter extends Entity<Chapter, ChapterProps> {
     };
   }
 
+  get numberOfClasses(): number {
+    return this._lessons.length;
+  }
+
+  get firstLesson(): Lesson {
+    return this._lessons[0];
+  }
+
+  get lastLesson(): Lesson {
+    return this._lessons[this.numberOfClasses - 1];
+  }
+
   get duration(): Duration {
     return this._lessons.reduce((durationTotal: Duration, lesson: Lesson) => {
       return durationTotal.sum(lesson.duration);
