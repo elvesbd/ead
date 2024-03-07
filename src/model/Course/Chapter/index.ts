@@ -4,6 +4,7 @@ import Position from '@/shared/ValueObject/Position';
 import Name from '@/shared/ValueObject/Name';
 import Lesson from '../Lesson';
 import Duration from '@/shared/ValueObject/Duration';
+import { LessonProps } from '../Lesson/types/LessonProps';
 
 export default class Chapter extends Entity<Chapter, ChapterProps> {
   private _name: Name;
@@ -11,10 +12,15 @@ export default class Chapter extends Entity<Chapter, ChapterProps> {
   private _lessons: Lesson[];
 
   constructor(props: ChapterProps) {
-    super(props);
+    const orderedLessons = Chapter.orderLessons(props.lessons ?? []);
+
+    super({
+      ...props,
+      lessons: orderedLessons,
+    });
     this._name = new Name(props.name);
     this._position = new Position(props.position);
-    this._lessons = props.lessons.map((lesson) => new Lesson(lesson));
+    this._lessons = orderedLessons.map((lesson) => new Lesson(lesson));
   }
 
   getProps(): ChapterProps {
@@ -51,7 +57,7 @@ export default class Chapter extends Entity<Chapter, ChapterProps> {
     };
   }
 
-  get numberOfClasses(): number {
+  get numberOfLessons(): number {
     return this._lessons.length;
   }
 
@@ -60,12 +66,37 @@ export default class Chapter extends Entity<Chapter, ChapterProps> {
   }
 
   get lastLesson(): Lesson {
-    return this._lessons[this.numberOfClasses - 1];
+    return this._lessons[this.numberOfLessons - 1];
   }
 
   get duration(): Duration {
     return this._lessons.reduce((durationTotal: Duration, lesson: Lesson) => {
       return durationTotal.sum(lesson.duration);
     }, new Duration(0));
+  }
+
+  private static sortLessons(lessons: Lesson[]): Lesson[] {
+    return lessons.sort(
+      (lessonA, lessonB) => lessonA.position.value - lessonB.position.value
+    );
+  }
+
+  private static orderLessons(props: LessonProps[]): LessonProps[] {
+    const lessons = props.map((lesson) => new Lesson(lesson));
+    return this.reorderLessons(lessons).map((lesson) => lesson.getProps());
+  }
+
+  private static reorderLessons(lessons: Lesson[]): Lesson[] {
+    const sorted = Chapter.sortLessons(lessons);
+    return sorted.map(
+      (lesson, index) =>
+        new Lesson({
+          id: lesson.getProps().id,
+          name: lesson.getProps().name,
+          urlVideo: lesson.getProps().urlVideo,
+          duration: lesson.getProps().duration,
+          position: index + 1,
+        })
+    );
   }
 }

@@ -4,6 +4,7 @@ import Entity from '@/shared/ValueObject/Entity';
 import { LessonProps } from './types/LessonProps';
 import Duration from '@/shared/ValueObject/Duration';
 import Position from '@/shared/ValueObject/Position';
+import Id from '@/shared/ValueObject/Id';
 
 export default class Lesson extends Entity<Lesson, LessonProps> {
   private _name: Name;
@@ -37,6 +38,18 @@ export default class Lesson extends Entity<Lesson, LessonProps> {
       this._duration.isValid() &&
       this._position.isValid()
     );
+  }
+
+  get id(): Id {
+    return this._id;
+  }
+
+  get name(): Name {
+    return this._name;
+  }
+
+  get urlVideo(): Url {
+    return this._urlVideo;
   }
 
   get position(): Position {
