@@ -109,7 +109,7 @@ describe('Entity - Chapter', () => {
     });
   });
 
-  describe('getDuration()', () => {
+  describe('orderLessons()', () => {
     it('should return the correct order of the lessons', () => {
       const lessons = [
         LessonBuilder.aLesson()

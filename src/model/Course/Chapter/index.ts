@@ -5,6 +5,7 @@ import Name from '@/shared/ValueObject/Name';
 import Lesson from '../Lesson';
 import Duration from '@/shared/ValueObject/Duration';
 import { LessonProps } from '../Lesson/types/LessonProps';
+import Id from '@/shared/ValueObject/Id';
 
 export default class Chapter extends Entity<Chapter, ChapterProps> {
   private _name: Name;
@@ -12,7 +13,7 @@ export default class Chapter extends Entity<Chapter, ChapterProps> {
   private _lessons: Lesson[];
 
   constructor(props: ChapterProps) {
-    const orderedLessons = Chapter.orderLessons(props.lessons ?? []);
+    const orderedLessons = Chapter.orderLessons(props.lessons);
 
     super({
       ...props,
@@ -30,6 +31,18 @@ export default class Chapter extends Entity<Chapter, ChapterProps> {
       lessons: this._lessons.map((lesson) => lesson.getProps()),
       position: this._position.value,
     };
+  }
+
+  get id(): Id {
+    return this._id;
+  }
+
+  get name(): Name {
+    return this._name;
+  }
+
+  get position(): Position {
+    return this._position;
   }
 
   isValid(): boolean {
@@ -91,10 +104,10 @@ export default class Chapter extends Entity<Chapter, ChapterProps> {
     return sorted.map(
       (lesson, index) =>
         new Lesson({
-          id: lesson.getProps().id,
-          name: lesson.getProps().name,
-          urlVideo: lesson.getProps().urlVideo,
-          duration: lesson.getProps().duration,
+          id: lesson.id.getValue,
+          name: lesson.name.value,
+          urlVideo: lesson.urlVideo.value,
+          duration: lesson.duration.value,
           position: index + 1,
         })
     );

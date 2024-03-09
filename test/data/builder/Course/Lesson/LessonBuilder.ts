@@ -15,9 +15,9 @@ export default class LessonBuilder {
     return new LessonBuilder();
   }
 
-  public static createLessons(qtde: number): LessonProps[] {
+  public static createLessons(qtd: number): LessonProps[] {
     const lesson = () => LessonBuilder.aLesson().withId().build();
-    return Array.from({ length: qtde }).map(() => lesson());
+    return Array.from({ length: qtd }).map(() => lesson());
   }
 
   public withId(): this {
