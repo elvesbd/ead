@@ -139,4 +139,9 @@ describe('Entity - Chapter', () => {
       expect(chapter.lessons[2].position.value).toBe(3);
     });
   });
+  describe('numberOfLessons()', () => {
+    it('should return the number of the lessons', () => {
+      expect(chapter.numberOfLessons).toBe(10);
+    });
+  });
 });
