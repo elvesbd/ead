@@ -173,4 +173,32 @@ describe('Entity - Chapter', () => {
       expect(chapter.firstLesson.getProps()).toStrictEqual(lessons[0]);
     });
   });
+
+  describe('lasLesson()', () => {
+    it('should return the last lessons', () => {
+      const lessons = [
+        LessonBuilder.aLesson()
+          .withName('Aula #1')
+          .withDuration(63)
+          .withPosition(1)
+          .build(),
+
+        LessonBuilder.aLesson()
+          .withName('Aula #2')
+          .withDuration(1007)
+          .withPosition(2)
+          .build(),
+
+        LessonBuilder.aLesson()
+          .withName('Aula #3')
+          .withDuration(3784)
+          .withPosition(3)
+          .build(),
+      ];
+      const props = ChapterBuilder.aChapter().withLessons(lessons).build();
+      const chapter = new Chapter(props);
+
+      expect(chapter.lastLesson.getProps()).toStrictEqual(lessons[2]);
+    });
+  });
 });
