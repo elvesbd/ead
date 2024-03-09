@@ -144,4 +144,33 @@ describe('Entity - Chapter', () => {
       expect(chapter.numberOfLessons).toBe(10);
     });
   });
+
+  describe('firstLesson()', () => {
+    it('should return the first lesson', () => {
+      const lessons = [
+        LessonBuilder.aLesson()
+          .withName('Aula #1')
+          .withDuration(63)
+          .withPosition(1)
+          .build(),
+
+        LessonBuilder.aLesson()
+          .withName('Aula #2')
+          .withDuration(1007)
+          .withPosition(2)
+          .build(),
+
+        LessonBuilder.aLesson()
+          .withName('Aula #3')
+          .withDuration(3784)
+          .withPosition(3)
+          .build(),
+      ];
+
+      const props = ChapterBuilder.aChapter().withLessons(lessons).build();
+      const chapter = new Chapter(props);
+
+      expect(chapter.firstLesson.getProps()).toStrictEqual(lessons[0]);
+    });
+  });
 });
