@@ -217,5 +217,18 @@ describe('Entity - Chapter', () => {
       expect(chapter.lastLesson.name.value).toBe(lesson.name.value);
       expect(chapter.numberOfLessons).toBe(4);
     });
+
+    it('should add lesson the first position of the chapter', () => {
+      const props = ChapterBuilder.aChapter().withNumberOfLessons(3).build();
+
+      const lessonProps = LessonBuilder.aLesson().withName('Aula #0').build();
+      const lesson = new Lesson(lessonProps);
+      const chapter = new Chapter(props);
+
+      chapter.addLesson(lesson, 0);
+
+      expect(chapter.firstLesson.name.value).toBe(lesson.name.value);
+      expect(chapter.numberOfLessons).toBe(4);
+    });
   });
 });
