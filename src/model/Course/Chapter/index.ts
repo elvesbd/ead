@@ -24,15 +24,6 @@ export default class Chapter extends Entity<Chapter, ChapterProps> {
     this._lessons = orderedLessons.map((lesson) => new Lesson(lesson));
   }
 
-  getProps(): ChapterProps {
-    return {
-      id: this._id.getValue,
-      name: this._name.value,
-      lessons: this._lessons.map((lesson) => lesson.getProps()),
-      position: this._position.value,
-    };
-  }
-
   get id(): Id {
     return this._id;
   }
@@ -43,15 +34,6 @@ export default class Chapter extends Entity<Chapter, ChapterProps> {
 
   get position(): Position {
     return this._position;
-  }
-
-  isValid(): boolean {
-    return (
-      this._id.isValid() &&
-      this._name.isValid() &&
-      this._position.isValid() &&
-      this._lessons.every((lesson) => lesson.isValid())
-    );
   }
 
   get lessons(): Lesson[] {
@@ -86,6 +68,37 @@ export default class Chapter extends Entity<Chapter, ChapterProps> {
     return this._lessons.reduce((durationTotal: Duration, lesson: Lesson) => {
       return durationTotal.sum(lesson.duration);
     }, new Duration(0));
+  }
+
+  addLesson(lesson: Lesson, position?: number): void {
+    const newLessons =
+      position !== undefined
+        ? [
+            ...this.lessons.slice(0, position),
+            lesson,
+            ...this.lessons.slice(position),
+          ]
+        : [...this.lessons, lesson];
+
+    this._lessons = newLessons;
+  }
+
+  getProps(): ChapterProps {
+    return {
+      id: this._id.getValue,
+      name: this._name.value,
+      lessons: this._lessons.map((lesson) => lesson.getProps()),
+      position: this._position.value,
+    };
+  }
+
+  isValid(): boolean {
+    return (
+      this._id.isValid() &&
+      this._name.isValid() &&
+      this._position.isValid() &&
+      this._lessons.every((lesson) => lesson.isValid())
+    );
   }
 
   private static sortLessons(lessons: Lesson[]): Lesson[] {

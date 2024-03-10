@@ -1,4 +1,5 @@
 import Chapter from '@/model/Course/Chapter';
+import Lesson from '@/model/Course/Lesson';
 import ChapterBuilder from '@/test/data/builder/Course/Chapter/ChapterBuilder';
 import LessonBuilder from '@/test/data/builder/Course/Lesson/LessonBuilder';
 
@@ -139,6 +140,7 @@ describe('Entity - Chapter', () => {
       expect(chapter.lessons[2].position.value).toBe(3);
     });
   });
+
   describe('numberOfLessons()', () => {
     it('should return the number of the lessons', () => {
       expect(chapter.numberOfLessons).toBe(10);
@@ -199,6 +201,21 @@ describe('Entity - Chapter', () => {
       const chapter = new Chapter(props);
 
       expect(chapter.lastLesson.getProps()).toStrictEqual(lessons[2]);
+    });
+  });
+
+  describe('addLesson()', () => {
+    it('should add lesson the last position of the chapter', () => {
+      const props = ChapterBuilder.aChapter().withNumberOfLessons(3).build();
+
+      const lessonProps = LessonBuilder.aLesson().withName('Aula #4').build();
+      const lesson = new Lesson(lessonProps);
+      const chapter = new Chapter(props);
+
+      chapter.addLesson(lesson);
+
+      expect(chapter.lastLesson.name.value).toBe(lesson.name.value);
+      expect(chapter.numberOfLessons).toBe(4);
     });
   });
 });
