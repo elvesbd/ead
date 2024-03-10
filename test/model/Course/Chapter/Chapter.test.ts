@@ -1,5 +1,8 @@
 import Chapter from '@/model/Course/Chapter';
 import Lesson from '@/model/Course/Lesson';
+import Id from '@/shared/ValueObject/Id';
+import Name from '@/shared/ValueObject/Name';
+import Position from '@/shared/ValueObject/Position';
 import ChapterBuilder from '@/test/data/builder/Course/Chapter/ChapterBuilder';
 import LessonBuilder from '@/test/data/builder/Course/Lesson/LessonBuilder';
 
@@ -16,6 +19,33 @@ describe('Entity - Chapter', () => {
     it('should create a chapter on success', () => {
       expect(chapter).toBeDefined();
       expect(chapter).toBeInstanceOf(Chapter);
+    });
+  });
+
+  describe('getId()', () => {
+    it('should return Id instance', () => {
+      const result = chapter.id;
+
+      expect(result).toBeInstanceOf(Id);
+      expect(result.getValue).toBeDefined();
+    });
+  });
+
+  describe('getName()', () => {
+    it('should return Name instance', () => {
+      const result = chapter.name;
+
+      expect(result).toBeInstanceOf(Name);
+      expect(result.value).toBeDefined();
+    });
+  });
+
+  describe('getPosition()', () => {
+    it('should return Position instance', () => {
+      const result = chapter.position;
+
+      expect(result).toBeInstanceOf(Position);
+      expect(result.value).toBeDefined();
     });
   });
 
