@@ -83,6 +83,16 @@ export default class Chapter extends Entity<Chapter, ChapterProps> {
     this._lessons = newLessons;
   }
 
+  removeLesson(lessonSelected: Lesson): Chapter {
+    const otherLessons = this.lessons.filter((lesson) =>
+      lesson.isNotEqual(lessonSelected)
+    );
+
+    this.setLessons(otherLessons);
+
+    return this;
+  }
+
   getProps(): ChapterProps {
     return {
       id: this._id.getValue,
@@ -99,6 +109,10 @@ export default class Chapter extends Entity<Chapter, ChapterProps> {
       this._position.isValid() &&
       this._lessons.every((lesson) => lesson.isValid())
     );
+  }
+
+  private setLessons(newLessons: Lesson[]): void {
+    this._lessons = newLessons.map((lesson) => new Lesson(lesson.getProps()));
   }
 
   private static sortLessons(lessons: Lesson[]): Lesson[] {

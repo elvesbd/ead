@@ -202,7 +202,10 @@ describe('Entity - Chapter', () => {
       const props = ChapterBuilder.aChapter().withLessons(lessons).build();
       const chapter = new Chapter(props);
 
-      expect(chapter.firstLesson.getProps()).toStrictEqual(lessons[0]);
+      expect(chapter.firstLesson.getProps().name).toEqual(lessons[0].name);
+      expect(chapter.firstLesson.getProps().position).toEqual(
+        lessons[0].position
+      );
     });
   });
 
@@ -230,7 +233,10 @@ describe('Entity - Chapter', () => {
       const props = ChapterBuilder.aChapter().withLessons(lessons).build();
       const chapter = new Chapter(props);
 
-      expect(chapter.lastLesson.getProps()).toStrictEqual(lessons[2]);
+      expect(chapter.lastLesson.getProps().name).toEqual(lessons[2].name);
+      expect(chapter.lastLesson.getProps().position).toEqual(
+        lessons[2].position
+      );
     });
   });
 
@@ -259,6 +265,36 @@ describe('Entity - Chapter', () => {
 
       expect(chapter.firstLesson.name.value).toBe(lesson.name.value);
       expect(chapter.numberOfLessons).toBe(4);
+    });
+  });
+
+  describe('removeLesson()', () => {
+    it('should remove lesson on the chapter', () => {
+      const lessons = [
+        LessonBuilder.aLesson()
+          .withName('Aula #1')
+          .withDuration(63)
+          .withPosition(1)
+          .build(),
+
+        LessonBuilder.aLesson()
+          .withName('Aula #2')
+          .withDuration(1007)
+          .withPosition(2)
+          .build(),
+
+        LessonBuilder.aLesson()
+          .withName('Aula #3')
+          .withDuration(3784)
+          .withPosition(3)
+          .build(),
+      ];
+      const props = ChapterBuilder.aChapter().withLessons(lessons).build();
+
+      const chapter = new Chapter(props);
+      chapter.removeLesson(chapter.lessons[1]);
+
+      expect(chapter.numberOfLessons).toBe(2);
     });
   });
 });

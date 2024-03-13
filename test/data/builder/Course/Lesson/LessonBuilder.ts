@@ -4,7 +4,7 @@ import { randomUUID } from 'crypto';
 
 export default class LessonBuilder {
   private props: LessonProps = {
-    id: 'ba71211c-3da3-4052-ab2c-e4e651168f62',
+    //id: 'ba71211c-3da3-4052-ab2c-e4e651168f62',
     name: faker.person.fullName(),
     duration: faker.number.int({ min: 90, max: 3600 }),
     urlVideo: faker.internet.url(),
